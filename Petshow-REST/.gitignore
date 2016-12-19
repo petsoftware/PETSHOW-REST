@@ -1,0 +1,12 @@
+/target/
+/bin/
+/logs/
+/.settings/
+*.class
+*.log
+*.classpath
+
+*.metadata
+/NFeCacerts
+*.jasper
+/git/
