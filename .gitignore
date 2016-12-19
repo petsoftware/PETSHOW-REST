@@ -28,6 +28,5 @@ buildNumber.properties
 /logs/
 /.settings/
 *.classpath
-*.project
 .metadata
 *.jasper

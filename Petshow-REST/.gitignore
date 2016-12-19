@@ -5,7 +5,6 @@
 *.class
 *.log
 *.classpath
-
 *.metadata
 /NFeCacerts
 *.jasper
