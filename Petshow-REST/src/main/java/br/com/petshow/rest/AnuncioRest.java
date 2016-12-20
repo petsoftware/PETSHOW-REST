@@ -16,12 +16,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import br.com.petshow.constants.RestConstants;
+import br.com.petshow.enums.EnumErrosSistema;
 import br.com.petshow.exceptions.ExceptionNotFoundRecord;
 import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.model.Anuncio;
 import br.com.petshow.model.Desaparecidos;
 import br.com.petshow.role.AnuncioRole;
 import br.com.petshow.role.DesaparecidosRole;
+import br.com.petshow.util.MapErroRetornoRest;
+import br.com.petshow.util.RestUtil;
 
 @Component
 @Path("/anuncio")
@@ -45,11 +48,11 @@ public class AnuncioRest extends SuperRestClass{
 
 			} catch (ExceptionValidation e) {
 
-				e.printStackTrace();
+				return RestUtil.getResponseValidationErro(e);
 
 			}catch (Exception e) {
 
-				e.printStackTrace();
+				return RestUtil.getResponseErroInesperado(e);
 
 			}
 		}else{
@@ -58,11 +61,11 @@ public class AnuncioRest extends SuperRestClass{
 
 			} catch (ExceptionValidation e) {
 
-				e.printStackTrace();
+				return RestUtil.getResponseValidationErro(e);
 
 			}catch (Exception e) {
 
-				e.printStackTrace();
+				return RestUtil.getResponseErroInesperado(e);
 
 			}
 
@@ -80,16 +83,17 @@ public class AnuncioRest extends SuperRestClass{
 	public Response consultaAnunciosPorUsuario(@PathParam("idUsuario") long idUsuario){
 
 		inicializar();
+		List<Anuncio> anuncios =null;
 		try {
 			anuncioR = getContext().getBean(AnuncioRole.class);
-			List<Anuncio> anuncios = anuncioR.consultaPorUsuario(idUsuario);
-			return Response.ok(anuncios).build();
+			anuncios = anuncioR.consultaPorUsuario(idUsuario);
 
-
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return RestUtil.getResponseErroInesperado(e);
 		}
+		return Response.ok(anuncios).build();
 
 	}
 
@@ -100,22 +104,17 @@ public class AnuncioRest extends SuperRestClass{
 
 		inicializar();
 
-
 		try {
 			anuncioR = getContext().getBean(AnuncioRole.class);
 			anuncioR.delete(idAnuncio);
+			
 		} catch (ExceptionValidation e) {
-
-			e.printStackTrace();
+			return RestUtil.getResponseValidationErro(e);
 		} catch (ExceptionNotFoundRecord e) {
-			return Response.status(Response.Status.NOT_FOUND).entity("Anuncio com o id "+idAnuncio+" não existe!").build();
-
+			return RestUtil.getResponseValidationErro(e.getMessage());
 		}catch (Exception e) {
-
-			e.printStackTrace();
+			return RestUtil.getResponseErroInesperado(e);
 		}
-
-
 
 		return Response.ok().build();
 	}
@@ -133,9 +132,9 @@ public class AnuncioRest extends SuperRestClass{
 			anuncioConsultado=anuncioR.find(idUsuario);
 
 		} catch (ExceptionValidation e) {
-			e.printStackTrace();
+			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
-			e.printStackTrace();
+			return RestUtil.getResponseErroInesperado(e);
 		}
 
 
