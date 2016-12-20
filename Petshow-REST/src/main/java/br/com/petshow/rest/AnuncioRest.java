@@ -38,7 +38,7 @@ public class AnuncioRest extends SuperRestClass{
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response salvarAnuncio(Anuncio anuncio){
-
+ 
 		inicializar();
 
 		anuncioR = getContext().getBean(AnuncioRole.class);
