@@ -17,29 +17,30 @@ import org.springframework.stereotype.Component;
 import br.com.petshow.exceptions.ExceptionNotFoundRecord;
 import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.model.Anuncio;
+import br.com.petshow.model.Servico;
 import br.com.petshow.role.AnuncioRole;
-
+import br.com.petshow.role.ServicoRole;
 import br.com.petshow.util.RestUtil;
 
 @Component
-@Path("/anuncio")
-public class AnuncioRest extends SuperRestClass{
+@Path("/servico")
+public class ServicoRest extends SuperRestClass{
 
 
-	AnuncioRole anuncioR;
+	ServicoRole servicoRole;
 
 	@POST
 	@Path("salvar")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response salvarAnuncio(Anuncio anuncio){
+	public Response salvarServico(Servico servico){
  
 		inicializar();
 
-		anuncioR = getContext().getBean(AnuncioRole.class);
-		if(anuncio.getId()>0){
+		servicoRole = getContext().getBean(ServicoRole.class);
+		if(servico.getId()>0){
 			try {
-				anuncioR.update(anuncio);
+				servicoRole.update(servico);
 
 			} catch (ExceptionValidation e) {
 
@@ -52,7 +53,7 @@ public class AnuncioRest extends SuperRestClass{
 			}
 		}else{
 			try {
-				anuncioR.insert(anuncio);
+				servicoRole.insert(servico);
 
 			} catch (ExceptionValidation e) {
 
@@ -65,7 +66,7 @@ public class AnuncioRest extends SuperRestClass{
 			}
 
 		}
-		return Response.ok().entity(anuncio).build();
+		return Response.ok().entity(servico).build();
 
 
 	}
@@ -75,33 +76,33 @@ public class AnuncioRest extends SuperRestClass{
 	@GET
 	@Path("consulta/usuario/{idUsuario}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response consultaAnunciosPorUsuario(@PathParam("idUsuario") long idUsuario){
+	public Response consultaServicosPorUsuario(@PathParam("idUsuario") long idUsuario){
 
 		inicializar();
-		List<Anuncio> anuncios =null;
+		List<Servico> servicos =null;
 		try {
-			anuncioR = getContext().getBean(AnuncioRole.class);
-			anuncios = anuncioR.consultaPorUsuario(idUsuario);
+			servicoRole = getContext().getBean(ServicoRole.class);
+			servicos = servicoRole.consultaPorUsuario(idUsuario);
 
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
 			return RestUtil.getResponseErroInesperado(e);
 		}
-		return Response.ok(anuncios).build();
+		return Response.ok(servicos).build();
 
 	}
 
 	@DELETE
-	@Path("{idAnuncio}")
+	@Path("{idServico}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response delete(@PathParam("idAnuncio") long idAnuncio){
+	public Response delete(@PathParam("idServico") long idServico){
 
 		inicializar();
 
 		try {
-			anuncioR = getContext().getBean(AnuncioRole.class);
-			anuncioR.delete(idAnuncio);
+			servicoRole = getContext().getBean(ServicoRole.class);
+			servicoRole.delete(idServico);
 			
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
@@ -115,16 +116,16 @@ public class AnuncioRest extends SuperRestClass{
 	}
 
 	@GET
-	@Path("{idAnuncio}")
+	@Path("{idServico}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response consultaAnuncio(@PathParam("idAnuncio") long idUsuario){
+	public Response consultaServico(@PathParam("idServico") long idUsuario){
 
-		Anuncio anuncioConsultado=null;
+		Servico servicoConsultado=null;
 		try {
 			inicializar();
 
-			anuncioR = getContext().getBean(AnuncioRole.class);
-			anuncioConsultado=anuncioR.find(idUsuario);
+			servicoRole = getContext().getBean(ServicoRole.class);
+			servicoConsultado=servicoRole.find(idUsuario);
 
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
@@ -133,7 +134,7 @@ public class AnuncioRest extends SuperRestClass{
 		}
 
 
-		return Response.ok().entity(anuncioConsultado).build();
+		return Response.ok().entity(servicoConsultado).build();
 	}
 
 }
