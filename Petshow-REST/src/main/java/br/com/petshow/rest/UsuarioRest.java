@@ -72,6 +72,66 @@ public class UsuarioRest extends SuperRestClass{
 
 	}
 	
+	@POST
+	@Path("salvar")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response salvar(Usuario usuario){
+
+		inicializar();
+		usuarioRole = getContext().getBean(UsuarioRole.class);
+		if(usuario.getId()>0){
+			try {
+				usuarioRole.update(usuario);
+
+			} catch (ExceptionValidation e) {
+
+				return RestUtil.getResponseValidationErro(e);
+
+			}catch (Exception e) {
+
+				return RestUtil.getResponseErroInesperado(e);
+
+			}
+		}else{
+			try {
+				usuarioRole.insert(usuario);
+
+			} catch (ExceptionValidation e) {
+
+				return RestUtil.getResponseValidationErro(e);
+
+			}catch (Exception e) {
+
+				return RestUtil.getResponseErroInesperado(e);
+
+			}
+
+		}
+		
+		return Response.ok().entity(usuario).build();
+
+
+	}
+	
+	@GET
+	@Path("{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUsuario(@PathParam("id") long id){
+
+		inicializar();
+		Usuario usuario = new Usuario();
+		try {
+			usuarioRole = getContext().getBean(UsuarioRole.class);
+			usuario = usuarioRole.find(id);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(usuario).build();
+
+	}
 	
 	
 }
