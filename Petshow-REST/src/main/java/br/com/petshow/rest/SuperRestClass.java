@@ -1,5 +1,7 @@
 package br.com.petshow.rest;
 
+import java.util.Date;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -52,7 +54,9 @@ public class SuperRestClass {
 
 
 	public void setContext() {
+		System.out.println("trace descobrir lentidao:entrou super class1:"+new Date().getTime());
 		this.context =new ClassPathXmlApplicationContext("spring-context.xml");
+		System.out.println("trace descobrir lentidao:entrou super class2:"+new Date().getTime());
 	}
 	
 	public void setContext(ApplicationContext context) {

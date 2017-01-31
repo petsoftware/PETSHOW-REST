@@ -112,6 +112,46 @@ public class VendaRest  extends SuperRestClass{
 
 		return Response.ok().build();
 	}
+	@GET
+	@Path("consulta/{palavraChave}/{idCidade}/{idEstado}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultaPorFiltro(@PathParam("palavraChave") String palavraChave,@PathParam("idCidade") long idCidade,@PathParam("idEstado") long idEstado){
 
+		inicializar();
+		List<Venda> vendas =null;
+		try {
+			vendaR = getContext().getBean(VendaRole.class);
+			vendas = vendaR.consultaVendasFiltros(palavraChave.equals("null")?"":palavraChave, idCidade, idEstado);
+
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(vendas).build();
+
+	}
+	
+	@GET
+	@Path("{idVenda}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultaVenda(@PathParam("idVenda") long idVenda){
+
+		Venda vendaConsultada=null;
+		try {
+			inicializar();
+
+			vendaR = getContext().getBean(VendaRole.class);
+			vendaConsultada= vendaR.find(idVenda);
+
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+
+
+		return Response.ok().entity(vendaConsultada).build();
+	}
 
 }

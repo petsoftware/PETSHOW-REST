@@ -12,8 +12,9 @@ import javax.ws.rs.core.Response;
 import org.springframework.stereotype.Component;
 
 import br.com.petshow.exceptions.ExceptionValidation;
+import br.com.petshow.model.Adocao;
 import br.com.petshow.model.Animal;
-
+import br.com.petshow.role.AdocaoRole;
 import br.com.petshow.role.AnimalRole;
 
 import br.com.petshow.util.RestUtil;
@@ -22,7 +23,8 @@ import br.com.petshow.util.RestUtil;
 public class AnimalRest  extends SuperRestClass{
 
 
-	AnimalRole animalRole;	
+	AnimalRole animalRole;
+	AdocaoRole adocaoRole;	
 
 	
 
@@ -45,6 +47,31 @@ public class AnimalRest  extends SuperRestClass{
 
 	}
 
+
+	@GET
+	@Path("consulta/adocao/{idEstado}/{idCidade}/{tpAnimal}/{fase}/{sexo}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response animaisAdocao(  @PathParam("idEstado") long estado,
+									@PathParam("idCidade") long cidade,
+									@PathParam("tpAnimal") String tpAnimal,
+									@PathParam("fase") String fase,
+									@PathParam("sexo") String sexo
+									
+				){
+
+		inicializar();
+		List<Adocao> animais =null;
+		try {
+			adocaoRole = getContext().getBean(AdocaoRole.class);
+			animais =adocaoRole.consultaAnimaisAdocao(estado,cidade,tpAnimal,fase,sexo);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(animais).build();
+
+	}
 
 
 

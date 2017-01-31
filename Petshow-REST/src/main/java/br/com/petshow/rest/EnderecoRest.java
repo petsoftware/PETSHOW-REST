@@ -1,5 +1,6 @@
 package br.com.petshow.rest;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,7 +26,7 @@ import br.com.petshow.role.UsuarioRole;
 import br.com.petshow.util.RestUtil;
 @Component
 @Path("/endereco")
-public class RestEndereco extends SuperRestClass{
+public class EnderecoRest extends SuperRestClass{
 	
 	CidadeRole cidadeR;
 	BairroRole bairroR;
@@ -58,15 +59,15 @@ public class RestEndereco extends SuperRestClass{
 	
 	
 	@GET
-	@Path("consulta/cidade/estado/{uf}")
+	@Path("consulta/cidade/estado/uf/{uf}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response cidadePorEstado(@PathParam("uf") String uf){
+	public Response cidadePorEstadoPorUf(@PathParam("uf") String uf){
 
 		inicializar();
 		List<Cidade> cidades =null;
 		try {
 			cidadeR = getContext().getBean(CidadeRole.class);
-			cidades = cidadeR.consultaPorEstado(uf);
+			cidades = cidadeR.consultaPorEstadoUF(uf);
 			
 			
 			
@@ -79,9 +80,38 @@ public class RestEndereco extends SuperRestClass{
 
 	}
 	@GET
+	@Path("consulta/cidade/estado/id/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response cidadePorEstadoPorID(@PathParam("id") String id){
+		System.out.println("trace descobrir lentidao:entrou Restendereco:"+new Date().getTime());
+		inicializar();
+		
+		List<Cidade> cidades =null;
+		try {
+			System.out.println("trace descobrir lentidao:entrou Restendereco1:"+new Date().getTime());
+			cidadeR = getContext().getBean(CidadeRole.class);
+			System.out.println("trace descobrir lentidao:entrou Restendereco2:"+new Date().getTime());
+			cidades = cidadeR.consultaPorEstadoID(Long.parseLong(id));
+			System.out.println("trace descobrir lentidao:entrou Restendereco3:"+new Date().getTime());
+			
+			
+			
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		System.out.println("trace descobrir lentidao:fim Restendereco:"+new Date().getTime());
+		return Response.ok(cidades).build();
+
+	}
+	
+	
+	
+	@GET
 	@Path("consulta/bairro/cidade/{idCidade}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response bairroPorCidade(@PathParam("idCidade") String idCidade){
+	public Response bairroPorCidade(@PathParam("idCidade") long idCidade){
 
 		inicializar();
 		List<Bairro> bairros =null;
