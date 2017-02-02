@@ -14,9 +14,10 @@ import org.springframework.stereotype.Component;
 import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.model.Adocao;
 import br.com.petshow.model.Animal;
+import br.com.petshow.model.Perdido;
 import br.com.petshow.role.AdocaoRole;
 import br.com.petshow.role.AnimalRole;
-
+import br.com.petshow.role.PerdidoRole;
 import br.com.petshow.util.RestUtil;
 @Component
 @Path("/animal")
@@ -25,6 +26,7 @@ public class AnimalRest  extends SuperRestClass{
 
 	AnimalRole animalRole;
 	AdocaoRole adocaoRole;	
+	PerdidoRole perdidoRole;
 
 	
 
@@ -49,13 +51,14 @@ public class AnimalRest  extends SuperRestClass{
 
 
 	@GET
-	@Path("consulta/adocao/{idEstado}/{idCidade}/{tpAnimal}/{fase}/{sexo}")
+	@Path("consulta/adocao/{idEstado}/{idCidade}/{tpAnimal}/{fase}/{sexo}/{limiteRegistros}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response animaisAdocao(  @PathParam("idEstado") long estado,
 									@PathParam("idCidade") long cidade,
 									@PathParam("tpAnimal") String tpAnimal,
 									@PathParam("fase") String fase,
-									@PathParam("sexo") String sexo
+									@PathParam("sexo") String sexo,
+									@PathParam("limiteRegistros") int limiteRegistros
 									
 				){
 
@@ -63,7 +66,7 @@ public class AnimalRest  extends SuperRestClass{
 		List<Adocao> animais =null;
 		try {
 			adocaoRole = getContext().getBean(AdocaoRole.class);
-			animais =adocaoRole.consultaAnimaisAdocao(estado,cidade,tpAnimal,fase,sexo);
+			animais =adocaoRole.consultaAnimaisAdocao(estado,cidade,tpAnimal,fase,sexo,limiteRegistros);
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
@@ -73,6 +76,54 @@ public class AnimalRest  extends SuperRestClass{
 
 	}
 
+	@GET
+	@Path("/perdido/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultaPerdido(@PathParam("id") long id){
+
+		Perdido entidade=null;
+		try {
+			inicializar();
+
+			perdidoRole = getContext().getBean(PerdidoRole.class);
+			entidade= perdidoRole.find(id);
+
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+
+
+		return Response.ok().entity(entidade).build();
+	}
+	
+	@GET
+	@Path("consulta/perdido/{idEstado}/{idCidade}/{idBairro}/{tpAnimal}/{tpPerdidoAchado}/{limiteRegistros}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response animaisPerdidos(  @PathParam("idBairro") long bairro,
+								      @PathParam("idEstado") long estado,
+									@PathParam("idCidade") long cidade,
+									
+									@PathParam("tpAnimal") String tpAnimal,
+									@PathParam("tpPerdidoAchado") String tpPerdidoAchado,
+									@PathParam("limiteRegistros") int limiteRegistros
+									
+				){
+
+		inicializar();
+		List<Perdido> animais =null;
+		try {
+			perdidoRole = getContext().getBean(PerdidoRole.class);
+			animais =perdidoRole.consultaPorFiltros(tpAnimal, tpPerdidoAchado, estado, cidade, bairro,limiteRegistros);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(animais).build();
+
+	}
 
 
 

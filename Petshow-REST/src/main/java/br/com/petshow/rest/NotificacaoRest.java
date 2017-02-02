@@ -3,6 +3,7 @@ package br.com.petshow.rest;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,16 +15,21 @@ import javax.ws.rs.core.Response;
 import org.springframework.stereotype.Component;
 
 import br.com.petshow.exceptions.ExceptionValidation;
+import br.com.petshow.model.Adocao;
 import br.com.petshow.model.Animal;
 import br.com.petshow.model.Anuncio;
+import br.com.petshow.model.Perdido;
 import br.com.petshow.model.Servico;
 import br.com.petshow.model.Usuario;
+import br.com.petshow.role.AdocaoRole;
 import br.com.petshow.role.AnimalRole;
 import br.com.petshow.role.AnuncioRole;
+import br.com.petshow.role.PerdidoRole;
 import br.com.petshow.role.ServicoRole;
 import br.com.petshow.role.UsuarioRole;
 import br.com.petshow.util.MensagemUtil;
 import br.com.petshow.util.RestUtil;
+
 
 @Component
 @Path("/notificacao")
@@ -47,6 +53,58 @@ public class NotificacaoRest  extends SuperRestClass{
 			String aviso = "Sr."+usuario.getNome()+", "+(MensagemUtil.getVogalSexo(animal))+" "+animal.getNome()+" já está pront"+(MensagemUtil.getVogalSexo(animal))+" para ser entregue!";
 			
 			System.out.println("criada notificacao com o aviso:"+aviso);
+
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok().build();
+		
+	}
+	
+	
+	@POST
+	@Path("adocao/msganuncio")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response notificacaoAnuncioAdocao(HashMap<String,String> parametros){
+		//@QueryParam("idUsuario")long idUsuario,@QueryParam("idAnimal")long idAnimal
+		inicializar();
+		
+		try {
+			String mensagem=parametros.get("mensagem");
+			String telefone=parametros.get("telefone");
+			String email=parametros.get("email");
+			
+			Adocao  adocao = getContext().getBean(AdocaoRole.class).find(Long.parseLong(parametros.get("idAdocao")));
+				
+			System.out.println("criada notificacao com a mensagem:"+mensagem);
+
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok().build();
+		
+	}
+	
+	
+	@POST
+	@Path("perdido/msganuncio")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response notificacaoAnuncioPerdido(HashMap<String,String> parametros){
+		//@QueryParam("idUsuario")long idUsuario,@QueryParam("idAnimal")long idAnimal
+		inicializar();
+		
+		try {
+			String mensagem=parametros.get("mensagem");
+			String telefone=parametros.get("telefone");
+			String email=parametros.get("email");
+			
+			Perdido  perdido = getContext().getBean(PerdidoRole.class).find(Long.parseLong(parametros.get("idPerdido")));
+				
+			System.out.println("criada notificacao com a mensagem:"+mensagem);
 
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
