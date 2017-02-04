@@ -14,9 +14,10 @@ import javax.ws.rs.core.Response;
 import org.springframework.stereotype.Component;
 
 import br.com.petshow.exceptions.ExceptionValidation;
-
+import br.com.petshow.model.Perdido;
 import br.com.petshow.model.Usuario;
 import br.com.petshow.role.AnuncioRole;
+import br.com.petshow.role.PerdidoRole;
 import br.com.petshow.role.UsuarioRole;
 import br.com.petshow.util.RestUtil;
 
@@ -133,5 +134,42 @@ public class UsuarioRest extends SuperRestClass{
 
 	}
 	
-	
+	@GET
+	@Path("consulta/clientes/{idEstabelecimento}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response clientes(  @PathParam("idEstabelecimento") long idEstabelecimento){
+
+		inicializar();
+		List<Usuario> usuarios =null;
+		try {
+			usuarioRole = getContext().getBean(UsuarioRole.class);
+			usuarios =usuarioRole.listaClientes(idEstabelecimento);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(usuarios).build();
+
+	}
+
+	@GET
+	@Path("consulta/clientes/{idEstabelecimento}/{parteNome}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response clientesLike(  @PathParam("idEstabelecimento") long idEstabelecimento,@PathParam("parteNome") String parteNome){
+
+		inicializar();
+		List<Usuario> usuarios =null;
+		try {
+			usuarioRole = getContext().getBean(UsuarioRole.class);
+			usuarios =usuarioRole.listaClientesAutoComplete(idEstabelecimento,parteNome);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(usuarios).build();
+
+	}
+
 }
