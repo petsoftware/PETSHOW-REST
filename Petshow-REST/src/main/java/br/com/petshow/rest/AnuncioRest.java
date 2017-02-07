@@ -35,7 +35,7 @@ public class AnuncioRest extends SuperRestClass{
 	public Response salvarAnuncio(Anuncio anuncio){
  
 		inicializar();
-
+		
 		anuncioR = getContext().getBean(AnuncioRole.class);
 		if(anuncio.getId()>0){
 			try {
