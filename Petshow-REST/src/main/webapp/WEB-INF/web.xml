@@ -2,7 +2,15 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2eehttp://java.sun.com/xml/ns/j2ee/web-app_3_0.xsd" version="3.0">
 <display-name>Spring REST Easy Tutorial</display-name>
 
-	<!-- Custom name for main spring configuration -->
+<!-- Custom name for main spring configuration
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+            /WEB-INF/spring-context.xml
+        </param-value>
+	</context-param> -->
+	
+	<!-- Custom name for main spring configuration--> 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
@@ -19,7 +27,7 @@
 	<listener>
 		<listener-class>org.jboss.resteasy.plugins.spring.SpringContextLoaderListener</listener-class>
 	</listener>
-
+	
 	<!-- RESTEasy HTTP Request processor -->
 	<context-param>
 		<param-name>resteasy.servlet.mapping.prefix</param-name>
