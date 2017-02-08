@@ -8,6 +8,8 @@ import javax.ws.rs.core.Response.Status;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import br.com.petshow.util.WriteConsoleUtil;
+
 /**
  * Super Classe para reutilizar metodos nas outras classes REST
  * @author Rafael Rocha
@@ -16,7 +18,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class SuperRestClass {
 
 
-	private ApplicationContext context;//= new ClassPathXmlApplicationContext("spring-context.xml")
+	private static ApplicationContext context;//= new ClassPathXmlApplicationContext("spring-context.xml")
 
 	public SuperRestClass() {
 		// TODO Auto-generated constructor stub
@@ -29,7 +31,9 @@ public class SuperRestClass {
 //	}
 	
 	static{
-		//context = new ClassPathXmlApplicationContext("spring-context.xml");
+		WriteConsoleUtil.write("Iniciando Spring-context");
+		context = new ClassPathXmlApplicationContext("spring-context.xml");
+		WriteConsoleUtil.write("***** OK ****** spring-context iniciado");
 	}
 	
 	

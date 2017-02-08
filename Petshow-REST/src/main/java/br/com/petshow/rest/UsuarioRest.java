@@ -34,7 +34,7 @@ public class UsuarioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response usuarioPorNome(@PathParam("idLogado") long idLogado,@PathParam("descNome") String nome){
 
-		inicializar();
+		//inicializar();
 		List<Usuario> usuarios =null;
 		try {
 			usuarioRole = getContext().getBean(UsuarioRole.class);
@@ -55,7 +55,7 @@ public class UsuarioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response preCadastro(Usuario usuario){
 
-		inicializar();
+		//inicializar();
 
 		
 		try {
@@ -79,7 +79,7 @@ public class UsuarioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response salvar(Usuario usuario){
 
-		inicializar();
+		//inicializar();
 		usuarioRole = getContext().getBean(UsuarioRole.class);
 		if(usuario.getId()>0){
 			try {
@@ -120,7 +120,7 @@ public class UsuarioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUsuario(@PathParam("id") long id){
 
-		inicializar();
+		//inicializar();
 		Usuario usuario = new Usuario();
 		try {
 			usuarioRole = getContext().getBean(UsuarioRole.class);
@@ -139,7 +139,7 @@ public class UsuarioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response clientes(  @PathParam("idEstabelecimento") long idEstabelecimento){
 
-		inicializar();
+		//inicializar();
 		List<Usuario> usuarios =null;
 		try {
 			usuarioRole = getContext().getBean(UsuarioRole.class);
@@ -158,7 +158,7 @@ public class UsuarioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response clientesLike(  @PathParam("idEstabelecimento") long idEstabelecimento,@PathParam("parteNome") String parteNome){
 
-		inicializar();
+		//inicializar();
 		List<Usuario> usuarios =null;
 		try {
 			usuarioRole = getContext().getBean(UsuarioRole.class);

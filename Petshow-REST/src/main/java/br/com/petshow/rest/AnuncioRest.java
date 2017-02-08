@@ -34,7 +34,7 @@ public class AnuncioRest extends SuperRestClass{
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response salvarAnuncio(Anuncio anuncio){
  
-		inicializar();
+		//inicializar();
 
 		anuncioR = getContext().getBean(AnuncioRole.class);
 		if(anuncio.getId()>0){
@@ -77,7 +77,7 @@ public class AnuncioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response consultaAnunciosPorUsuario(@PathParam("idUsuario") long idUsuario){
 
-		inicializar();
+		//inicializar();
 		List<Anuncio> anuncios =null;
 		try {
 			anuncioR = getContext().getBean(AnuncioRole.class);
@@ -97,7 +97,7 @@ public class AnuncioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response delete(@PathParam("idAnuncio") long idAnuncio){
 
-		inicializar();
+		//inicializar();
 
 		try {
 			anuncioR = getContext().getBean(AnuncioRole.class);
@@ -121,7 +121,7 @@ public class AnuncioRest extends SuperRestClass{
 
 		Anuncio anuncioConsultado=null;
 		try {
-			inicializar();
+			//inicializar();
 
 			anuncioR = getContext().getBean(AnuncioRole.class);
 			anuncioConsultado=anuncioR.find(idUsuario);
