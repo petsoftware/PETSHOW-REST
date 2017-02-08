@@ -1,12 +1,13 @@
 package br.com.petshow.rest;
 
-import java.util.Date;
-
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.XmlWebApplicationContext;
+
+import br.com.petshow.util.WriteConsoleUtil;
 
 import br.com.petshow.util.WriteConsoleUtil;
 
@@ -58,15 +59,33 @@ public class SuperRestClass {
 
 
 	public void setContext() {
-		System.out.println("trace descobrir lentidao:entrou super class1:"+new Date().getTime());
-		this.context =new ClassPathXmlApplicationContext("spring-context.xml");
-		System.out.println("trace descobrir lentidao:entrou super class2:"+new Date().getTime());
+		/**
+		 * In non-web applications we use ApplicationContext interface to provide beans configuration to our applications 
+		 * from xml files.For example:
+			ApplicationContext context = new FileSystemXmlApplicationContext("c:/foo.xml");
+			OR
+			ApplicationContext context = new ClassPathXmlApplicationContext("foo.xml");
+			------------------------------------------------------------------------------
+						FOR WEB APPLICATIONS
+			------------------------------------------------------------------------------
+			But in web applications we use WebApplicationContext interface instead of ApplicationContext interface to 
+			provide bean configuration to our web application and to represent the spring container.
+			WebApplicationContext extends ApplicationContext and has some extra features necessary for web applications.
+		 */
+		if(context == null){
+			WriteConsoleUtil.write("Contexto do Spring ainda N�O iniciado - Comecando inicializacao");
+			context =new ClassPathXmlApplicationContext("spring-context.xml");
+//			this.context =new XmlWebApplicationContext();
+//			this.context.refresh();
+			WriteConsoleUtil.write("******* OK - spring-context Iniciado ********** ");
+		}
 	}
 	
-	public void setContext(ApplicationContext context) {
-		this.context = context;
-	
-	}
+//	public void setContext(ApplicationContext context) {
+//	public void setContext(XmlWebApplicationContext context) {
+//		context = context;
+//	
+//	}
 	public void inicializar(){
 		setContext();
 	}
