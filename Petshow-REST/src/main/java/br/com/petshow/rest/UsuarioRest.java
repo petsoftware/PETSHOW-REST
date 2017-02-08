@@ -14,10 +14,7 @@ import javax.ws.rs.core.Response;
 import org.springframework.stereotype.Component;
 
 import br.com.petshow.exceptions.ExceptionValidation;
-import br.com.petshow.model.Perdido;
 import br.com.petshow.model.Usuario;
-import br.com.petshow.role.AnuncioRole;
-import br.com.petshow.role.PerdidoRole;
 import br.com.petshow.role.UsuarioRole;
 import br.com.petshow.util.RestUtil;
 

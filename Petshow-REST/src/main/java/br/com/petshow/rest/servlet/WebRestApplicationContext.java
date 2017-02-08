@@ -11,42 +11,24 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import br.com.petshow.rest.SuperRestClass;
+import br.com.petshow.util.WriteConsoleUtil;
+
 /**
  * Servlet implementation class WebRestApplicationContext
  */
-@WebServlet("/WebRestApplicationContext")
+@WebServlet(value="/webRestApplicationContext", loadOnStartup=3)
 public class WebRestApplicationContext extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
+		WriteConsoleUtil.write("Iniciando o Servlet para carregar o SpringContext");
 		super.init(config);
-		
-		config.getServletContext();
+		SuperRestClass.setContext(WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext()));
+		WriteConsoleUtil.write("**** OK carregado !!!! ****");
 	}
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public WebRestApplicationContext() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
+	
+	
 }

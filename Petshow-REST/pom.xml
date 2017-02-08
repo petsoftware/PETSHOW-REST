@@ -7,6 +7,9 @@
 	<packaging>war</packaging>
 	<name>Petshow-REST</name>
 	<description>Projeto WEB que contem o REST</description>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<dependencies>
 	
 		<dependency>
