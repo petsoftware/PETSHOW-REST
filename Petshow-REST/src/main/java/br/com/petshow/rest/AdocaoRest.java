@@ -1,7 +1,5 @@
 package br.com.petshow.rest;
 
-import java.util.Date;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,9 +13,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.model.Adocao;
-import br.com.petshow.model.Venda;
 import br.com.petshow.role.AdocaoRole;
-import br.com.petshow.role.VendaRole;
 import br.com.petshow.util.RestUtil;
 
 
@@ -30,13 +26,8 @@ public class AdocaoRest extends SuperRestClass{
 	@Path("gravar")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response doPost(String json){
-		//context = new ClassPathXmlApplicationContext("spring-context.xml");
-//		adocaoRole = getContext().getBean(AdocaoRole.class);
-//		Adocao adocao = new Adocao();
-//		adocao.setDataAdocao(new Date());
 		
 		try {
-//			adocaoRole.insert(adocao);
 			return Response.ok("OK").build();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -61,8 +52,6 @@ public class AdocaoRest extends SuperRestClass{
 
 		Adocao entidade=null;
 		try {
-			inicializar();
-
 			adocaoRole = getContext().getBean(AdocaoRole.class);
 			entidade= adocaoRole.find(id);
 

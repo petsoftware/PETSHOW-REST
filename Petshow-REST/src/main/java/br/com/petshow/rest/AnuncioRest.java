@@ -34,8 +34,6 @@ public class AnuncioRest extends SuperRestClass{
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response salvarAnuncio(Anuncio anuncio){
  
-		inicializar();
-
 		anuncioR = getContext().getBean(AnuncioRole.class);
 		if(anuncio.getId()>0){
 			try {
@@ -77,7 +75,6 @@ public class AnuncioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response consultaAnunciosPorUsuario(@PathParam("idUsuario") long idUsuario){
 
-		inicializar();
 		List<Anuncio> anuncios =null;
 		try {
 			anuncioR = getContext().getBean(AnuncioRole.class);
@@ -96,9 +93,6 @@ public class AnuncioRest extends SuperRestClass{
 	@Path("{idAnuncio}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response delete(@PathParam("idAnuncio") long idAnuncio){
-
-		inicializar();
-
 		try {
 			anuncioR = getContext().getBean(AnuncioRole.class);
 			anuncioR.delete(idAnuncio);
@@ -121,11 +115,8 @@ public class AnuncioRest extends SuperRestClass{
 
 		Anuncio anuncioConsultado=null;
 		try {
-			inicializar();
-
 			anuncioR = getContext().getBean(AnuncioRole.class);
 			anuncioConsultado=anuncioR.find(idUsuario);
-
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {

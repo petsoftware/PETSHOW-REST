@@ -16,9 +16,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.petshow.exceptions.ExceptionNotFoundRecord;
 import br.com.petshow.exceptions.ExceptionValidation;
-import br.com.petshow.model.Anuncio;
 import br.com.petshow.model.Venda;
-import br.com.petshow.role.AnuncioRole;
 import br.com.petshow.role.VendaRole;
 import br.com.petshow.util.RestUtil;
 
@@ -34,36 +32,23 @@ public class VendaRest  extends SuperRestClass{
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response salvarVenda(Venda venda){
  
-		inicializar();
-
 		vendaR = getContext().getBean(VendaRole.class);
 		if(venda.getId()>0){
 			try {
 				vendaR.update(venda);
-
 			} catch (ExceptionValidation e) {
-
 				return RestUtil.getResponseValidationErro(e);
-
 			}catch (Exception e) {
-
 				return RestUtil.getResponseErroInesperado(e);
-
 			}
 		}else{
 			try {
 				vendaR.insert(venda);
-
 			} catch (ExceptionValidation e) {
-
 				return RestUtil.getResponseValidationErro(e);
-
 			}catch (Exception e) {
-
 				return RestUtil.getResponseErroInesperado(e);
-
 			}
-
 		}
 		return Response.ok().entity(venda).build();
 
@@ -76,7 +61,6 @@ public class VendaRest  extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response consultaVendasPorUsuario(@PathParam("idUsuario") long idUsuario){
 
-		inicializar();
 		List<Venda> vendas =null;
 		try {
 			vendaR = getContext().getBean(VendaRole.class);
@@ -95,9 +79,6 @@ public class VendaRest  extends SuperRestClass{
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response delete(@PathParam("id") long id){
-
-		inicializar();
-
 		try {
 			vendaR = getContext().getBean(VendaRole.class);
 			vendaR.delete(id);
@@ -120,8 +101,6 @@ public class VendaRest  extends SuperRestClass{
 									@PathParam("idEstado") long idEstado,
 									@PathParam("limiteRegistros") int limiteRegistros
 									){
-
-		inicializar();
 		List<Venda> vendas =null;
 		try {
 			vendaR = getContext().getBean(VendaRole.class);
@@ -143,11 +122,8 @@ public class VendaRest  extends SuperRestClass{
 
 		Venda vendaConsultada=null;
 		try {
-			inicializar();
-
 			vendaR = getContext().getBean(VendaRole.class);
 			vendaConsultada= vendaR.find(idVenda);
-
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {

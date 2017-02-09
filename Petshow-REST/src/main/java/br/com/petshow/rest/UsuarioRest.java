@@ -14,10 +14,7 @@ import javax.ws.rs.core.Response;
 import org.springframework.stereotype.Component;
 
 import br.com.petshow.exceptions.ExceptionValidation;
-import br.com.petshow.model.Perdido;
 import br.com.petshow.model.Usuario;
-import br.com.petshow.role.AnuncioRole;
-import br.com.petshow.role.PerdidoRole;
 import br.com.petshow.role.UsuarioRole;
 import br.com.petshow.util.RestUtil;
 
@@ -34,7 +31,7 @@ public class UsuarioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response usuarioPorNome(@PathParam("idLogado") long idLogado,@PathParam("descNome") String nome){
 
-		inicializar();
+		//inicializar();
 		List<Usuario> usuarios =null;
 		try {
 			usuarioRole = getContext().getBean(UsuarioRole.class);
@@ -55,7 +52,7 @@ public class UsuarioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response preCadastro(Usuario usuario){
 
-		inicializar();
+		//inicializar();
 
 		
 		try {
@@ -79,7 +76,7 @@ public class UsuarioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response salvar(Usuario usuario){
 
-		inicializar();
+		//inicializar();
 		usuarioRole = getContext().getBean(UsuarioRole.class);
 		if(usuario.getId()>0){
 			try {
@@ -120,7 +117,7 @@ public class UsuarioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUsuario(@PathParam("id") long id){
 
-		inicializar();
+		//inicializar();
 		Usuario usuario = new Usuario();
 		try {
 			usuarioRole = getContext().getBean(UsuarioRole.class);
@@ -139,7 +136,7 @@ public class UsuarioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response clientes(  @PathParam("idEstabelecimento") long idEstabelecimento){
 
-		inicializar();
+		//inicializar();
 		List<Usuario> usuarios =null;
 		try {
 			usuarioRole = getContext().getBean(UsuarioRole.class);
@@ -158,7 +155,7 @@ public class UsuarioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response clientesLike(  @PathParam("idEstabelecimento") long idEstabelecimento,@PathParam("parteNome") String parteNome){
 
-		inicializar();
+		//inicializar();
 		List<Usuario> usuarios =null;
 		try {
 			usuarioRole = getContext().getBean(UsuarioRole.class);

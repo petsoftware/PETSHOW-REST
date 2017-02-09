@@ -34,8 +34,6 @@ public class AnimalRest  extends SuperRestClass{
 	@Path("consulta/usuario/{idUsuario}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response animaisPorUsuario(@PathParam("idUsuario") long idUsuario){
-
-		inicializar();
 		List<Animal> animais =null;
 		try {
 			animalRole = getContext().getBean(AnimalRole.class);
@@ -62,7 +60,6 @@ public class AnimalRest  extends SuperRestClass{
 									
 				){
 
-		inicializar();
 		List<Adocao> animais =null;
 		try {
 			adocaoRole = getContext().getBean(AdocaoRole.class);
@@ -83,11 +80,8 @@ public class AnimalRest  extends SuperRestClass{
 
 		Perdido entidade=null;
 		try {
-			inicializar();
-
 			perdidoRole = getContext().getBean(PerdidoRole.class);
 			entidade= perdidoRole.find(id);
-
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
@@ -110,8 +104,6 @@ public class AnimalRest  extends SuperRestClass{
 									@PathParam("limiteRegistros") int limiteRegistros
 									
 				){
-
-		inicializar();
 		List<Perdido> animais =null;
 		try {
 			perdidoRole = getContext().getBean(PerdidoRole.class);
@@ -124,7 +116,5 @@ public class AnimalRest  extends SuperRestClass{
 		return Response.ok(animais).build();
 
 	}
-
-
 
 }

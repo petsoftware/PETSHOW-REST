@@ -29,8 +29,6 @@ public class EventoRest extends SuperRestClass {
 	@Path(RestConstants.REST_PATTERN_URL_INSERT)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response postEventoRecord(Evento evento){
-		System.out.println("Evento");
-		inicializar();
 		role = getContext().getBean(EventoRole.class);
 		try {
 			evento = role.insert(evento);
@@ -45,7 +43,6 @@ public class EventoRest extends SuperRestClass {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Evento> findAll() {
 		List<Evento> list = new ArrayList<>();	 
-		inicializar();
 		role = getContext().getBean(EventoRole.class);
 		list = role.findAll();
 		return list;
@@ -56,7 +53,6 @@ public class EventoRest extends SuperRestClass {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Evento find(@PathParam("codigo") long codigo) {
 		Evento evento;
-		inicializar();
 		role = getContext().getBean(EventoRole.class);
 		try {
 			evento = role.find(codigo);

@@ -16,9 +16,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.petshow.exceptions.ExceptionNotFoundRecord;
 import br.com.petshow.exceptions.ExceptionValidation;
-import br.com.petshow.model.Anuncio;
 import br.com.petshow.model.Servico;
-import br.com.petshow.role.AnuncioRole;
 import br.com.petshow.role.ServicoRole;
 import br.com.petshow.util.RestUtil;
 
@@ -34,22 +32,14 @@ public class ServicoRest extends SuperRestClass{
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response salvarServico(Servico servico){
- 
-		inicializar();
-
 		servicoRole = getContext().getBean(ServicoRole.class);
 		if(servico.getId()>0){
 			try {
 				servicoRole.update(servico);
-
 			} catch (ExceptionValidation e) {
-
 				return RestUtil.getResponseValidationErro(e);
-
 			}catch (Exception e) {
-
 				return RestUtil.getResponseErroInesperado(e);
-
 			}
 		}else{
 			try {
@@ -78,12 +68,10 @@ public class ServicoRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response consultaServicosPorUsuario(@PathParam("idUsuario") long idUsuario){
 
-		inicializar();
 		List<Servico> servicos =null;
 		try {
 			servicoRole = getContext().getBean(ServicoRole.class);
 			servicos = servicoRole.consultaPorUsuario(idUsuario);
-
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
@@ -97,9 +85,6 @@ public class ServicoRest extends SuperRestClass{
 	@Path("{idServico}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response delete(@PathParam("idServico") long idServico){
-
-		inicializar();
-
 		try {
 			servicoRole = getContext().getBean(ServicoRole.class);
 			servicoRole.delete(idServico);
@@ -122,11 +107,8 @@ public class ServicoRest extends SuperRestClass{
 
 		Servico servicoConsultado=null;
 		try {
-			inicializar();
-
 			servicoRole = getContext().getBean(ServicoRole.class);
 			servicoConsultado=servicoRole.find(idUsuario);
-
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
