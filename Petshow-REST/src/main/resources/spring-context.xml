@@ -43,7 +43,7 @@
         <!-- <bean id="ApplicationContextProvider"  class="br.com.bruno.config.ApplicationContextProvider"/> --> 
         <tx:annotation-driven />
         <!-- Define o pacote base para o escaneamento das anotações de contexto (@Component, @Repository, @Service, @Controller, etc) -->
-        <context:component-scan base-package="br.com.petshow" />
+        <context:component-scan base-package="br.com" />
         <context:annotation-config />
    
   </beans>

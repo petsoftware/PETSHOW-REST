@@ -35,7 +35,7 @@ public class EnderecoRest extends SuperRestClass{
 	@GET
 	@Path("consulta/Cep/{cep}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response usuarioPorNome(@PathParam("cep") long cep){
+	public Response consultaCep(@PathParam("cep") long cep){
 
 		inicializar();
 		HashMap<String,String> map =null;
@@ -148,6 +148,72 @@ public class EnderecoRest extends SuperRestClass{
 			return RestUtil.getResponseErroInesperado(e);
 		}
 		return Response.ok(estados).build();
+
+	}
+	
+	@GET
+	@Path("consulta/bairro/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getBairro(@PathParam("id") long id){
+
+		inicializar();
+		Bairro bairro =null;
+		try {
+			bairroR = getContext().getBean(BairroRole.class);
+			bairro= bairroR.find(id);
+			
+			
+			
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(bairro).build();
+
+	}
+	
+	@GET
+	@Path("consulta/cidade/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getCidade(@PathParam("id") long id){
+
+		inicializar();
+		Cidade cidade =null;
+		try {
+			cidadeR = getContext().getBean(CidadeRole.class);
+			cidade= cidadeR.find(id);
+			
+			
+			
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(cidade).build();
+
+	}
+	
+	@GET
+	@Path("consulta/estado/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getEstado(@PathParam("id") long id){
+
+		inicializar();
+		Estado estado =null;
+		try {
+			estadoR = getContext().getBean(EstadoRole.class);
+			estado= estadoR.find(id);
+			
+			
+			
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(estado).build();
 
 	}
 }
