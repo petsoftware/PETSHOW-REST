@@ -129,7 +129,7 @@ public class EnderecoRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getBairro(@PathParam("id") long id){
 
-		inicializar();
+		
 		Bairro bairro =null;
 		try {
 			bairroR = getContext().getBean(BairroRole.class);
@@ -151,7 +151,6 @@ public class EnderecoRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCidade(@PathParam("id") long id){
 
-		inicializar();
 		Cidade cidade =null;
 		try {
 			cidadeR = getContext().getBean(CidadeRole.class);
@@ -173,7 +172,7 @@ public class EnderecoRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getEstado(@PathParam("id") long id){
 
-		inicializar();
+		
 		Estado estado =null;
 		try {
 			estadoR = getContext().getBean(EstadoRole.class);

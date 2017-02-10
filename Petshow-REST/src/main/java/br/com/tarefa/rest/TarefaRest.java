@@ -36,7 +36,7 @@ public class TarefaRest  extends SuperRestClass {
 
 		Tarefa entidade=null;
 		try {
-			inicializar();
+		
 
 			tarefaRole = getContext().getBean(TarefaRole.class);
 			entidade= tarefaRole.find(id);
@@ -58,7 +58,7 @@ public class TarefaRest  extends SuperRestClass {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response salvarTarefa(Tarefa tarefa){
 
-		inicializar();
+	
 
 		tarefaRole = getContext().getBean(TarefaRole.class);
 		if(tarefa.getId()>0){
@@ -100,7 +100,7 @@ public class TarefaRest  extends SuperRestClass {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response alterarStatus(Tarefa tarefa){
 
-		inicializar();
+		
 
 		tarefaRole = getContext().getBean(TarefaRole.class);
 
@@ -128,7 +128,7 @@ public class TarefaRest  extends SuperRestClass {
 			@PathParam("obs") String obs){
 		Tarefa tarefa =null;
 		try {
-			inicializar();
+			
 			tarefaRole = getContext().getBean(TarefaRole.class);	
 			tarefa = tarefaRole.find(id);
 			tarefa.getObservacao().add(obs);
@@ -147,7 +147,7 @@ public class TarefaRest  extends SuperRestClass {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response tarefas(){
 
-		inicializar();
+		
 		List<Tarefa> tarefas =null;
 		try {
 			tarefaRole = getContext().getBean(TarefaRole.class);
