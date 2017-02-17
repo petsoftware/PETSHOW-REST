@@ -31,7 +31,6 @@ public class DesaparecidosRest extends SuperRestClass{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Desaparecidos postStudentRecord(Desaparecidos desaparecidos){
-		System.out.println("Desaparecidos");
 		context = new ClassPathXmlApplicationContext("spring-context.xml");
 		role = context.getBean(DesaparecidosRole.class);
 		try {

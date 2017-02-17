@@ -40,8 +40,6 @@ public class AdocaoRest extends SuperRestClass{
 	@Path("post")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response postStudentRecord(Adocao adocao){
-		System.out.println("Adocao post");
-		//String result = "Record entered: "+ adocao;
 		return Response.status(200).entity(adocao.toString()).build();
 	}
 	

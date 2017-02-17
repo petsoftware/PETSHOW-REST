@@ -74,7 +74,6 @@ public class EnderecoRest extends SuperRestClass{
 	@Path("consulta/cidade/estado/id/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response cidadePorEstadoPorID(@PathParam("id") String id){
-		System.out.println("trace descobrir lentidao:entrou Restendereco:"+new Date().getTime());
 		List<Cidade> cidades =null;
 		try {
 			cidadeR = getContext().getBean(CidadeRole.class);

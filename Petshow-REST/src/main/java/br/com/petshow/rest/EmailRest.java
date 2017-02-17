@@ -23,10 +23,7 @@ public class EmailRest extends SuperRestClass{
 	public Response enviarEmail(HashMap<String,String> parametros){
 
 		try{
-		System.out.println("corpo do email:"+parametros.get("mensagem"));
-
-		//} catch (ExceptionValidation e) {
-		//	return RestUtil.getResponseValidationErro(e);
+		
 		} catch (Exception e) {
 			return RestUtil.getResponseErroInesperado(e);
 		}
