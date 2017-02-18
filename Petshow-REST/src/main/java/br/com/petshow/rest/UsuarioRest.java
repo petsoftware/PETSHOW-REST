@@ -168,5 +168,17 @@ public class UsuarioRest extends SuperRestClass{
 		return Response.ok(usuarios).build();
 
 	}
+	
+	@GET
+	@Path("consulta/login/{nmLogin}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUserByLoginName(@PathParam("nmLogin")String nmLogin){
+		Usuario usuario =null;
+		usuarioRole = getContext().getBean(UsuarioRole.class);
+		usuario = usuarioRole.consultaPorNomeLogin(nmLogin);
+		return Response.ok(usuario).build();
+
+	}
+
 
 }
