@@ -176,6 +176,9 @@ public class UsuarioRest extends SuperRestClass{
 		Usuario usuario =null;
 		usuarioRole = getContext().getBean(UsuarioRole.class);
 		usuario = usuarioRole.consultaPorNomeLogin(nmLogin);
+		if(usuario==null){
+			usuario = new Usuario();
+		}
 		return Response.ok(usuario).build();
 
 	}
