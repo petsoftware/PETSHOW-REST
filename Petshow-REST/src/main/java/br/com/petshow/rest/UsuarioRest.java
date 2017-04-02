@@ -14,7 +14,9 @@ import javax.ws.rs.core.Response;
 import org.springframework.stereotype.Component;
 
 import br.com.petshow.exceptions.ExceptionValidation;
+import br.com.petshow.model.Tutor;
 import br.com.petshow.model.Usuario;
+import br.com.petshow.role.TutorRole;
 import br.com.petshow.role.UsuarioRole;
 import br.com.petshow.util.RestUtil;
 
@@ -25,6 +27,7 @@ public class UsuarioRest extends SuperRestClass{
 	
 	
 	UsuarioRole usuarioRole;
+	TutorRole tutorRole;
 
 	@GET
 	@Path("consulta/like/nome/{idLogado}/{descNome}")
@@ -112,6 +115,8 @@ public class UsuarioRest extends SuperRestClass{
 
 	}
 	
+	
+	
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -122,6 +127,24 @@ public class UsuarioRest extends SuperRestClass{
 		try {
 			usuarioRole = getContext().getBean(UsuarioRole.class);
 			usuario = usuarioRole.find(id);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(usuario).build();
+
+	}
+	@GET
+	@Path("facebook/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUsuarioForFacebookId(@PathParam("id") long id){
+
+		//inicializar();
+		Usuario usuario = new Usuario();
+		try {
+			usuarioRole = getContext().getBean(UsuarioRole.class);
+			usuario = usuarioRole.findFacebook(id);
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
