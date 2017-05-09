@@ -17,9 +17,11 @@ import org.springframework.stereotype.Component;
 import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.model.Acesso;
 import br.com.petshow.model.Usuario;
+import br.com.petshow.role.AcessoRole;
 import br.com.petshow.role.TutorRole;
 import br.com.petshow.role.UsuarioRole;
 import br.com.petshow.util.RestUtil;
+import br.com.tafera.enums.EnumRoles;
 
 @Component
 @Path("/usuario")
@@ -29,6 +31,7 @@ public class UsuarioRest extends SuperRestClass{
 	
 	UsuarioRole usuarioRole;
 	TutorRole tutorRole;
+	AcessoRole acessoRole;
 
 	@GET
 	@Path("consulta/like/nome/{idLogado}/{descNome}")
@@ -61,13 +64,14 @@ public class UsuarioRest extends SuperRestClass{
 		
 		try {
 			usuarioRole = getContext().getBean(UsuarioRole.class);
+			acessoRole  = getContext().getBean(AcessoRole.class);
 			//usuario.setPassword(usuario.getCnpjCpf());
 			//-----------------------------------------
 			//NOTE: Por padrao usaremos a role ADMIN
 			//-----------------------------------------
-			Acesso acesso = new Acesso();
-			acesso.setNmAcesso("ROLE_ADMIN");
-			List<Acesso> authorities = Arrays.asList();
+			Acesso acesso = acessoRole.findAcesso(EnumRoles.ROLE_ADMIN);
+			List<Acesso> authorities = Arrays.asList(acesso);
+			//-------------------------------------------
 			usuario.setAcessos(authorities);
 			usuario.setCnpjCpf("11111111111111");
 			usuarioRole.insertPreCadastro(usuario);
