@@ -62,6 +62,7 @@ public class UsuarioRest extends SuperRestClass{
 			usuarioRole = getContext().getBean(UsuarioRole.class);
 			usuario.setPassword(usuario.getCnpjCpf());
 			usuarioRole.insertPreCadastro(usuario);
+			usuarioRole.insert(usuario);
 			
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
