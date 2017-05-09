@@ -1,5 +1,6 @@
 package br.com.petshow.rest;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -14,7 +15,7 @@ import javax.ws.rs.core.Response;
 import org.springframework.stereotype.Component;
 
 import br.com.petshow.exceptions.ExceptionValidation;
-import br.com.petshow.model.Tutor;
+import br.com.petshow.model.Acesso;
 import br.com.petshow.model.Usuario;
 import br.com.petshow.role.TutorRole;
 import br.com.petshow.role.UsuarioRole;
@@ -60,9 +61,17 @@ public class UsuarioRest extends SuperRestClass{
 		
 		try {
 			usuarioRole = getContext().getBean(UsuarioRole.class);
-			usuario.setPassword(usuario.getCnpjCpf());
+			//usuario.setPassword(usuario.getCnpjCpf());
+			//-----------------------------------------
+			//NOTE: Por padrao usaremos a role ADMIN
+			//-----------------------------------------
+			Acesso acesso = new Acesso();
+			acesso.setNmAcesso("ROLE_ADMIN");
+			List<Acesso> authorities = Arrays.asList();
+			usuario.setAcessos(authorities);
+			usuario.setCnpjCpf("11111111111111");
 			usuarioRole.insertPreCadastro(usuario);
-			usuarioRole.insert(usuario);
+			
 			
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
