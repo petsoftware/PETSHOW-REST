@@ -73,7 +73,9 @@ public class UsuarioRest extends SuperRestClass{
 			List<Acesso> authorities = Arrays.asList(acesso);
 			//-------------------------------------------
 			usuario.setAcessos(authorities);
-			usuario.setCnpjCpf("11111111111111");
+			if(usuario.getCnpjCpf() != null && usuario.getCnpjCpf().trim().isEmpty()){
+				usuario.setCnpjCpf("11111111111111");
+			}
 			usuarioRole.insertPreCadastro(usuario);
 			
 			
