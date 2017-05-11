@@ -58,14 +58,9 @@ public class UsuarioRest extends SuperRestClass{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response preCadastro(Usuario usuario){
-
-		//inicializar();
-
-		
 		try {
 			usuarioRole = getContext().getBean(UsuarioRole.class);
 			acessoRole  = getContext().getBean(AcessoRole.class);
-			//usuario.setPassword(usuario.getCnpjCpf());
 			//-----------------------------------------
 			//NOTE: Por padrao usaremos a role ADMIN
 			//-----------------------------------------
@@ -77,7 +72,7 @@ public class UsuarioRest extends SuperRestClass{
 				usuario.setCnpjCpf("11111111111111");
 			}
 			usuarioRole.insertPreCadastro(usuario);
-			
+			usuarioRole.sendEmail(usuario);
 			
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
