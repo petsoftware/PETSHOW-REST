@@ -1,6 +1,7 @@
 package br.com.petshow.rest;
 
 import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -17,12 +18,14 @@ import org.springframework.stereotype.Component;
 
 import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.model.Amigo;
-import br.com.petshow.model.Tutor;
+import br.com.petshow.model.Acesso;
 import br.com.petshow.model.Usuario;
 import br.com.petshow.role.AmigoRole;
+import br.com.petshow.role.AcessoRole;
 import br.com.petshow.role.TutorRole;
 import br.com.petshow.role.UsuarioRole;
 import br.com.petshow.util.RestUtil;
+import br.com.tafera.enums.EnumRoles;
 
 @Component
 @Path("/usuario")
@@ -33,6 +36,7 @@ public class UsuarioRest extends SuperRestClass{
 	UsuarioRole usuarioRole;
 	TutorRole tutorRole;
 	AmigoRole amigoRole;
+	AcessoRole acessoRole;
 
 	@GET
 	@Path("consulta/like/nome/{idLogado}/{descNome}")
@@ -59,14 +63,21 @@ public class UsuarioRest extends SuperRestClass{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response preCadastro(Usuario usuario){
-
-		//inicializar();
-
-		
 		try {
 			usuarioRole = getContext().getBean(UsuarioRole.class);
-			usuario.setPassword(usuario.getCnpjCpf());
+			acessoRole  = getContext().getBean(AcessoRole.class);
+			//-----------------------------------------
+			//NOTE: Por padrao usaremos a role ADMIN
+			//-----------------------------------------
+			Acesso acesso = acessoRole.findAcesso(EnumRoles.ROLE_ADMIN);
+			List<Acesso> authorities = Arrays.asList(acesso);
+			//-------------------------------------------
+			usuario.setAcessos(authorities);
+			if(usuario.getCnpjCpf() != null && usuario.getCnpjCpf().trim().isEmpty()){
+				usuario.setCnpjCpf("11111111111111");
+			}
 			usuarioRole.insertPreCadastro(usuario);
+			usuarioRole.sendEmail(usuario);
 			
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
@@ -74,6 +85,7 @@ public class UsuarioRest extends SuperRestClass{
 			return RestUtil.getResponseErroInesperado(e);
 		}
 		return Response.ok().entity(usuario).build();
+
 
 
 	}
