@@ -29,6 +29,7 @@ import br.com.petshow.role.RacasRole;
 import br.com.petshow.role.ServicoRole;
 import br.com.petshow.role.TutorRole;
 import br.com.petshow.role.VendaRole;
+import br.com.petshow.util.MD5EncriptUtil;
 import br.com.petshow.util.RestUtil;
 @Component
 @Path("/animal")
@@ -47,7 +48,7 @@ public class AnimalRest  extends SuperRestClass{
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response salvar(Animal animal){
- 
+	
 		animalRole = getContext().getBean(AnimalRole.class);
 		if(animal.getId()>0){
 			try {
@@ -75,7 +76,7 @@ public class AnimalRest  extends SuperRestClass{
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response consultaAnimal(@PathParam("id") long id){
-
+	
 		Animal animal=null;
 		try {
 			animalRole = getContext().getBean(AnimalRole.class);
@@ -250,6 +251,35 @@ public class AnimalRest  extends SuperRestClass{
 		}
 		
 		return Response.ok().entity(tutor).build();
+
+
+	}
+	
+	@POST
+	@Path("perdido/salvar")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response salvar(Perdido perdido){
+	
+		perdidoRole = getContext().getBean(PerdidoRole.class);
+		if(perdido.getId()>0){
+			try {
+				perdidoRole.update(perdido);
+			} catch (ExceptionValidation e) {
+				return RestUtil.getResponseValidationErro(e);
+			}catch (Exception e) {
+				return RestUtil.getResponseErroInesperado(e);
+			}
+		}else{
+			try {
+				perdidoRole.insert(perdido);
+			} catch (ExceptionValidation e) {
+				return RestUtil.getResponseValidationErro(e);
+			}catch (Exception e) {
+				return RestUtil.getResponseErroInesperado(e);
+			}
+		}
+		return Response.ok().entity(perdido).build();
 
 
 	}

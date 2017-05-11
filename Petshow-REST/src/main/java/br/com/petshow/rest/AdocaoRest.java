@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 
 import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.model.Adocao;
+import br.com.petshow.model.Animal;
 import br.com.petshow.role.AdocaoRole;
+import br.com.petshow.role.AnimalRole;
 import br.com.petshow.util.RestUtil;
 
 
@@ -22,6 +24,7 @@ import br.com.petshow.util.RestUtil;
 public class AdocaoRest extends SuperRestClass{
 	//private static ApplicationContext context;
 	AdocaoRole adocaoRole;
+	// não sei o motivo de criaçao deste mas nao será deletado
 	@GET
 	@Path("gravar")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -63,6 +66,34 @@ public class AdocaoRest extends SuperRestClass{
 		return Response.ok().entity(entidade).build();
 	}
 	
+	@POST
+	@Path("salvar")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response salvar(Adocao adocao){
+	
+		adocaoRole = getContext().getBean(AdocaoRole.class);
+		if(adocao.getId()>0){
+			try {
+				adocaoRole.update(adocao);
+			} catch (ExceptionValidation e) {
+				return RestUtil.getResponseValidationErro(e);
+			}catch (Exception e) {
+				return RestUtil.getResponseErroInesperado(e);
+			}
+		}else{
+			try {
+				adocaoRole.insert(adocao);
+			} catch (ExceptionValidation e) {
+				return RestUtil.getResponseValidationErro(e);
+			}catch (Exception e) {
+				return RestUtil.getResponseErroInesperado(e);
+			}
+		}
+		return Response.ok().entity(adocao).build();
+
+
+	}
 
 
 }
