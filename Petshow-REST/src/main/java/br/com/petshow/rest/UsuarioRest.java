@@ -16,16 +16,18 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
 
+import br.com.petshow.enums.EnumRoles;
 import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.model.Amigo;
+import br.com.petshow.model.SecurityLogin;
 import br.com.petshow.model.Acesso;
 import br.com.petshow.model.Usuario;
 import br.com.petshow.role.AmigoRole;
+import br.com.petshow.role.SecurityLoginRole;
 import br.com.petshow.role.AcessoRole;
 import br.com.petshow.role.TutorRole;
 import br.com.petshow.role.UsuarioRole;
 import br.com.petshow.util.RestUtil;
-import br.com.tafera.enums.EnumRoles;
 
 @Component
 @Path("/usuario")
@@ -37,6 +39,7 @@ public class UsuarioRest extends SuperRestClass{
 	TutorRole tutorRole;
 	AmigoRole amigoRole;
 	AcessoRole acessoRole;
+	SecurityLoginRole securityLoginRole;
 
 	@GET
 	@Path("consulta/like/nome/{idLogado}/{descNome}")
@@ -66,6 +69,7 @@ public class UsuarioRest extends SuperRestClass{
 		try {
 			usuarioRole = getContext().getBean(UsuarioRole.class);
 			acessoRole  = getContext().getBean(AcessoRole.class);
+			securityLoginRole   = getContext().getBean(SecurityLoginRole.class);
 			//-----------------------------------------
 			//NOTE: Por padrao usaremos a role ADMIN
 			//-----------------------------------------
@@ -77,7 +81,9 @@ public class UsuarioRest extends SuperRestClass{
 				usuario.setCnpjCpf("11111111111111");
 			}
 			usuarioRole.insertPreCadastro(usuario);
-			usuarioRole.sendEmail(usuario);
+			SecurityLogin securityLogin = usuarioRole.genarateSecurityLogin(usuario);
+			securityLogin = securityLoginRole.insert(securityLogin);
+			usuarioRole.sendEmail(usuario,securityLogin);
 			
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
