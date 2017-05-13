@@ -27,6 +27,7 @@ import br.com.petshow.role.SecurityLoginRole;
 import br.com.petshow.role.AcessoRole;
 import br.com.petshow.role.TutorRole;
 import br.com.petshow.role.UsuarioRole;
+import br.com.petshow.util.KeyNewUserValidateUtil;
 import br.com.petshow.util.RestUtil;
 
 @Component
@@ -325,6 +326,39 @@ public class UsuarioRest extends SuperRestClass{
 		}
 		return Response.ok(amigo).build();
 
+	}
+	
+	@POST
+	@Path("validate")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response validate(SecurityLogin securityLogin){
+		Usuario usuario = new Usuario();
+		long userId = 0L;
+		try {
+			String key = securityLogin.getKey();
+			if(usuarioRole==null){
+				usuarioRole = getContext().getBean(UsuarioRole.class);
+			}
+			String keyParts[] = KeyNewUserValidateUtil.getKeyParts(key);
+			if(keyParts==null || keyParts.length < 2){
+				return RestUtil.getResponseValidationErro(new ExceptionValidation("Valores invalidos"));
+			}else{
+				try {
+					userId = Long.parseLong(keyParts[1]) ;
+				} catch (NumberFormatException e) {
+					// TODO: handle exception
+					return RestUtil.getResponseValidationErro(new ExceptionValidation(e.getMessage()));
+				}
+			}
+			usuario = usuarioRole.find(userId);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(usuario).build();
+		
 	}
 
 }
