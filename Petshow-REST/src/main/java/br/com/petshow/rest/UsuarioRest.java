@@ -246,7 +246,14 @@ public class UsuarioRest extends SuperRestClass{
 		usuario = usuarioRole.consultaPorNomeLogin(nmLogin);
 		if(usuario==null){
 			usuario = new Usuario();
+		}else{
+			if(!usuario.isValidated()){
+				usuario = new Usuario();
+				return RestUtil.getResponseValidationErro(new ExceptionValidation("Usuario não realizou a sua validação, por favor acesso o seu e-mail e use o link para se validar"));
+				
+			}
 		}
+		
 		return Response.ok(usuario).build();
 
 	}
@@ -373,6 +380,10 @@ public class UsuarioRest extends SuperRestClass{
 				}
 			}
 			usuario = usuarioRole.find(userId);
+			if(usuario!=null){
+				usuario.setValidated(true);
+				usuario = usuarioRole.update(usuario);
+			}
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
