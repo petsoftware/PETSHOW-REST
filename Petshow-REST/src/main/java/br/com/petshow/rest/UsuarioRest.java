@@ -22,10 +22,12 @@ import br.com.petshow.model.Amigo;
 import br.com.petshow.model.SecurityLogin;
 import br.com.petshow.model.Acesso;
 import br.com.petshow.model.Usuario;
+import br.com.petshow.model.UsuarioCliente;
 import br.com.petshow.role.AmigoRole;
 import br.com.petshow.role.SecurityLoginRole;
 import br.com.petshow.role.AcessoRole;
 import br.com.petshow.role.TutorRole;
+import br.com.petshow.role.UsuarioClienteRole;
 import br.com.petshow.role.UsuarioRole;
 import br.com.petshow.util.KeyNewUserValidateUtil;
 import br.com.petshow.util.RestUtil;
@@ -37,6 +39,7 @@ public class UsuarioRest extends SuperRestClass{
 	
 	
 	UsuarioRole usuarioRole;
+	UsuarioClienteRole usuarioClienteRole;
 	TutorRole tutorRole;
 	AmigoRole amigoRole;
 	AcessoRole acessoRole;
@@ -138,7 +141,25 @@ public class UsuarioRest extends SuperRestClass{
 
 
 	}
-	
+
+	@POST
+	@Path("salvar/usercli")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response salvarUsuarioCliente(UsuarioCliente usuarioCliente){
+		usuarioClienteRole = getContext().getBean(UsuarioClienteRole.class);
+		if(usuarioCliente.getId()>0){
+			try {
+				usuarioClienteRole.insert(usuarioCliente);
+			} catch (ExceptionValidation e) {
+				return RestUtil.getResponseValidationErro(e);
+			}catch (Exception e) {
+				return RestUtil.getResponseErroInesperado(e);
+			}
+		}
+		return Response.ok().build();
+	}
+
 	
 	
 	@GET
@@ -225,7 +246,14 @@ public class UsuarioRest extends SuperRestClass{
 		usuario = usuarioRole.consultaPorNomeLogin(nmLogin);
 		if(usuario==null){
 			usuario = new Usuario();
+		}else{
+			if(!usuario.isValidated()){
+				usuario = new Usuario();
+				return RestUtil.getResponseValidationErro(new ExceptionValidation("Usuario não realizou a sua validação, por favor acesso o seu e-mail e use o link para se validar"));
+				
+			}
 		}
+		
 		return Response.ok(usuario).build();
 
 	}
@@ -352,6 +380,10 @@ public class UsuarioRest extends SuperRestClass{
 				}
 			}
 			usuario = usuarioRole.find(userId);
+			if(usuario!=null){
+				usuario.setValidated(true);
+				usuario = usuarioRole.update(usuario);
+			}
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
