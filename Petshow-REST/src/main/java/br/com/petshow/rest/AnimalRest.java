@@ -3,6 +3,7 @@ package br.com.petshow.rest;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -10,27 +11,29 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import org.springframework.stereotype.Component;
-
 import br.com.petshow.enums.EnumTipoAnimal;
+import br.com.petshow.exceptions.ExceptionNotFoundRecord;
 import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.model.Adocao;
 import br.com.petshow.model.Animal;
 import br.com.petshow.model.Perdido;
 import br.com.petshow.model.Racas;
-import br.com.petshow.model.Servico;
+import br.com.petshow.model.Tratamento;
 import br.com.petshow.model.Tutor;
-import br.com.petshow.model.Venda;
+import br.com.petshow.model.Vacina;
+import br.com.petshow.model.Vermifugo;
 import br.com.petshow.role.AdocaoRole;
 import br.com.petshow.role.AnimalRole;
 import br.com.petshow.role.PerdidoRole;
 import br.com.petshow.role.RacasRole;
-import br.com.petshow.role.ServicoRole;
+import br.com.petshow.role.TratamentoRole;
 import br.com.petshow.role.TutorRole;
-import br.com.petshow.role.VendaRole;
-import br.com.petshow.util.MD5EncriptUtil;
+import br.com.petshow.role.VacinaRole;
+import br.com.petshow.role.VermifugoRole;
 import br.com.petshow.util.RestUtil;
+
+
 @Component
 @Path("/animal")
 public class AnimalRest  extends SuperRestClass{
@@ -41,6 +44,9 @@ public class AnimalRest  extends SuperRestClass{
 	PerdidoRole perdidoRole;
 	RacasRole racasRole;
 	TutorRole tutorRole;
+	VacinaRole vacinaRole;
+	TratamentoRole tratamentoRole;
+	VermifugoRole vermifugoRole;
 
 
 	@POST
@@ -70,6 +76,25 @@ public class AnimalRest  extends SuperRestClass{
 		return Response.ok().entity(animal).build();
 
 
+	}
+	
+	@DELETE
+	@Path("{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response delete(@PathParam("id") long id){
+		try {
+			animalRole = getContext().getBean(AnimalRole.class);
+			animalRole.delete(id);
+			
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (ExceptionNotFoundRecord e) {
+			return RestUtil.getResponseValidationErro(e.getMessage());
+		}catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+
+		return Response.ok().build();
 	}
 	
 	@GET
@@ -283,5 +308,306 @@ public class AnimalRest  extends SuperRestClass{
 
 
 	}
+	
+	
+	@GET
+	@Path("consulta/perdido/usuario/{idUsuario}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response perdidosPorUsuario(@PathParam("idUsuario") long idUsuario){
+		List<Perdido> perdidos =null;
+		try {
+			perdidoRole = getContext().getBean(PerdidoRole.class);
+			perdidos = perdidoRole.consultaPorUsuario(idUsuario);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(perdidos).build();
+
+	}
+	
+	@DELETE
+	@Path("perdido/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deletePerdido(@PathParam("id") long id){
+		try {
+			perdidoRole = getContext().getBean(PerdidoRole.class);
+			perdidoRole.delete(id);
+			
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (ExceptionNotFoundRecord e) {
+			return RestUtil.getResponseValidationErro(e.getMessage());
+		}catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+
+		return Response.ok().build();
+	}
+	
+	
+	@POST
+	@Path("tratamento/salvar")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response salvarTratamento(Tratamento tratamento){
+	
+		tratamentoRole = getContext().getBean(TratamentoRole.class);
+		if(tratamento.getId()>0){
+			try {
+				tratamentoRole.update(tratamento);
+			} catch (ExceptionValidation e) {
+				return RestUtil.getResponseValidationErro(e);
+			}catch (Exception e) {
+				return RestUtil.getResponseErroInesperado(e);
+			}
+		}else{
+			try {
+				tratamentoRole.insert(tratamento);
+			} catch (ExceptionValidation e) {
+				return RestUtil.getResponseValidationErro(e);
+			}catch (Exception e) {
+				return RestUtil.getResponseErroInesperado(e);
+			}
+		}
+		return Response.ok().entity(tratamento).build();
+
+
+	}
+	
+	@GET
+	@Path("/tratamento/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultaTratamento(@PathParam("id") long id){
+
+		Tratamento entidade=null;
+		try {
+			tratamentoRole = getContext().getBean(TratamentoRole.class);
+			entidade= tratamentoRole.find(id);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+
+
+		return Response.ok().entity(entidade).build();
+	}
+	
+	
+	@DELETE
+	@Path("/tratamento/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteTratamento(@PathParam("id") long id){
+		try {
+			tratamentoRole = getContext().getBean(TratamentoRole.class);
+			tratamentoRole.delete(id);
+			
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (ExceptionNotFoundRecord e) {
+			return RestUtil.getResponseValidationErro(e.getMessage());
+		}catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+
+		return Response.ok().build();
+	}
+	
+	
+	@GET
+	@Path("tratamento/animal/{idAnimal}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response tratamentoPorAnimal(@PathParam("idAnimal") long idAnimal){
+		List<Tratamento> lista =null;
+		try {
+			tratamentoRole = getContext().getBean(TratamentoRole.class);
+			lista = tratamentoRole.consultaPorAnimal(idAnimal);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(lista).build();
+
+	}
+	
+	
+	
+	@POST
+	@Path("vacina/salvar")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response salvarVacina(Vacina vacina){
+	
+		vacinaRole = getContext().getBean(VacinaRole.class);
+		if(vacina.getId()>0){
+			try {
+				vacinaRole.update(vacina);
+			} catch (ExceptionValidation e) {
+				return RestUtil.getResponseValidationErro(e);
+			}catch (Exception e) {
+				return RestUtil.getResponseErroInesperado(e);
+			}
+		}else{
+			try {
+				vacinaRole.insert(vacina);
+			} catch (ExceptionValidation e) {
+				return RestUtil.getResponseValidationErro(e);
+			}catch (Exception e) {
+				return RestUtil.getResponseErroInesperado(e);
+			}
+		}
+		return Response.ok().entity(vacina).build();
+
+
+	}
+	
+	
+	@GET
+	@Path("/vacina/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultaVacina(@PathParam("id") long id){
+
+		Vacina entidade=null;
+		try {
+			vacinaRole = getContext().getBean(VacinaRole.class);
+			entidade= vacinaRole.find(id);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+
+
+		return Response.ok().entity(entidade).build();
+	}
+	
+	
+	@DELETE
+	@Path("/vacina/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteVacina(@PathParam("id") long id){
+		try {
+			vacinaRole = getContext().getBean(VacinaRole.class);
+			vacinaRole.delete(id);
+			
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (ExceptionNotFoundRecord e) {
+			return RestUtil.getResponseValidationErro(e.getMessage());
+		}catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+
+		return Response.ok().build();
+	}
+	
+	@GET
+	@Path("vacina/animal/{idAnimal}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response vacinaPorAnimal(@PathParam("idAnimal") long idAnimal){
+		List<Vacina> lista =null;
+		try {
+			vacinaRole = getContext().getBean(VacinaRole.class);
+			lista = vacinaRole.consultaPorAnimal(idAnimal);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(lista).build();
+
+	}
+	
+	
+	
+	@POST
+	@Path("vermifugo/salvar")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response salvarVermifugo(Vermifugo vermifugo){
+	
+		vermifugoRole = getContext().getBean(VermifugoRole.class);
+		if(vermifugo.getId()>0){
+			try {
+				vermifugoRole.update(vermifugo);
+			} catch (ExceptionValidation e) {
+				return RestUtil.getResponseValidationErro(e);
+			}catch (Exception e) {
+				return RestUtil.getResponseErroInesperado(e);
+			}
+		}else{
+			try {
+				vermifugoRole.insert(vermifugo);
+			} catch (ExceptionValidation e) {
+				return RestUtil.getResponseValidationErro(e);
+			}catch (Exception e) {
+				return RestUtil.getResponseErroInesperado(e);
+			}
+		}
+		return Response.ok().entity(vermifugo).build();
+
+
+	}
+	
+	
+	@GET
+	@Path("/vermifugo/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultaVermifugo(@PathParam("id") long id){
+
+		Vermifugo entidade=null;
+		try {
+			vermifugoRole = getContext().getBean(VermifugoRole.class);
+			entidade= vermifugoRole.find(id);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+
+
+		return Response.ok().entity(entidade).build();
+	}
+	
+	@DELETE
+	@Path("/vermifugo/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteVermifugo(@PathParam("id") long id){
+		try {
+			vermifugoRole = getContext().getBean(VermifugoRole.class);
+			vermifugoRole.delete(id);
+			
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (ExceptionNotFoundRecord e) {
+			return RestUtil.getResponseValidationErro(e.getMessage());
+		}catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+
+		return Response.ok().build();
+	}
+	
+	@GET
+	@Path("vermifugo/animal/{idAnimal}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response vermifugoPorAnimal(@PathParam("idAnimal") long idAnimal){
+		List<Vermifugo> lista =null;
+		try {
+			vermifugoRole = getContext().getBean(VermifugoRole.class);
+			lista = vermifugoRole.consultaPorAnimal(idAnimal);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(lista).build();
+
+	}
+	
+	
 
 }

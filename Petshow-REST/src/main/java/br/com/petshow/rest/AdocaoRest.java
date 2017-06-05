@@ -1,6 +1,9 @@
 package br.com.petshow.rest;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
 
+import br.com.petshow.exceptions.ExceptionNotFoundRecord;
 import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.model.Adocao;
 import br.com.petshow.model.Animal;
@@ -94,6 +98,44 @@ public class AdocaoRest extends SuperRestClass{
 
 
 	}
+	
+	
+	@GET
+	@Path("consulta/usuario/{idUsuario}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response adocaoPorUsuario(@PathParam("idUsuario") long idUsuario){
+		List<Adocao> animais =null;
+		try {
+			adocaoRole = getContext().getBean(AdocaoRole.class);
+			animais = adocaoRole.consultaPorUsuario(idUsuario);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(animais).build();
+
+	}
+	
+	@DELETE
+	@Path("{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response delete(@PathParam("id") long id){
+		try {
+			adocaoRole = getContext().getBean(AdocaoRole.class);
+			adocaoRole.delete(id);
+			
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (ExceptionNotFoundRecord e) {
+			return RestUtil.getResponseValidationErro(e.getMessage());
+		}catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+
+		return Response.ok().build();
+	}
+	
 
 
 }
