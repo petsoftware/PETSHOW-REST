@@ -594,18 +594,20 @@ public class AnimalRest  extends SuperRestClass{
 	@GET
 	@Path("vermifugo/animal/{idAnimal}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response vermifugoPorAnimal(@PathParam("idAnimal") long idAnimal){
-		List<Vermifugo> lista =null;
+	public Response consultaVermifugoPorAnimal(@PathParam("idAnimal") long idAnimal){
+
+		Vermifugo entidade=null;
 		try {
 			vermifugoRole = getContext().getBean(VermifugoRole.class);
-			lista = vermifugoRole.consultaPorAnimal(idAnimal);
+			entidade= vermifugoRole.consultaPorAnimal(idAnimal);
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
 			return RestUtil.getResponseErroInesperado(e);
 		}
-		return Response.ok(lista).build();
 
+
+		return Response.ok().entity(entidade).build();
 	}
 	
 	
