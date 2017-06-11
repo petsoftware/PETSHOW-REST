@@ -2,6 +2,7 @@ package br.com.petshow.rest;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -53,6 +54,7 @@ public class AnimalRest  extends SuperRestClass{
 	@Path("salvar")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@RolesAllowed({"ADMIN"})
 	public Response salvar(Animal animal){
 	
 		animalRole = getContext().getBean(AnimalRole.class);
