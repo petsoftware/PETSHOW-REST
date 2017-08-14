@@ -2,6 +2,7 @@ package br.com.petshow.rest;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -17,9 +18,7 @@ import org.springframework.stereotype.Component;
 import br.com.petshow.exceptions.ExceptionNotFoundRecord;
 import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.model.Adocao;
-import br.com.petshow.model.Animal;
 import br.com.petshow.role.AdocaoRole;
-import br.com.petshow.role.AnimalRole;
 import br.com.petshow.util.RestUtil;
 
 
@@ -28,27 +27,10 @@ import br.com.petshow.util.RestUtil;
 public class AdocaoRest extends SuperRestClass{
 	//private static ApplicationContext context;
 	AdocaoRole adocaoRole;
-	// não sei o motivo de criaçao deste mas nao será deletado
-	@GET
-	@Path("gravar")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response doPost(String json){
+	public AdocaoRest() {
 		
-		try {
-			return Response.ok("OK").build();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Response.serverError().build();
-		}
 	}
 	
-	@POST
-	@Path("post")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response postStudentRecord(Adocao adocao){
-		return Response.status(200).entity(adocao.toString()).build();
-	}
 	
 	@GET
 	@Path("{id}")
@@ -72,7 +54,7 @@ public class AdocaoRest extends SuperRestClass{
 	
 	@POST
 	@Path("salvar")
-	@Produces("application/json")
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response salvar(Adocao adocao){
 	
