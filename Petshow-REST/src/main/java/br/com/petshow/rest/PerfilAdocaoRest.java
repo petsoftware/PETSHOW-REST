@@ -32,7 +32,7 @@ public class PerfilAdocaoRest extends SuperRestClass{
 	
 	
 	@POST
-	@Path("salvar")
+	@Path(RestPathConstants.SALVAR)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response salvar(PerfilAdocao perfilAdocao){
@@ -66,9 +66,9 @@ public class PerfilAdocaoRest extends SuperRestClass{
 	 * @return
 	 */
 	@GET
-	@Path("{idUsuario}")
+	@Path(RestPathConstants.GET+"/{"+RestPathConstants.USER_ID+"}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getPerfilAdocaoPorUsuario(@PathParam("idUsuario") long userId){
+	public Response getPerfilAdocaoPorUsuario(@PathParam(RestPathConstants.USER_ID) long userId){
 		Usuario usuario  = null;
 		PerfilAdocao perfilAdocao = new PerfilAdocao();
 		perfilAdocaoRole = getContext().getBean(PerfilAdocaoRole.class);
