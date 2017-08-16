@@ -1,5 +1,6 @@
 package br.com.petshow.rest;
 
+import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -79,6 +80,8 @@ public class PerfilAdocaoRest extends SuperRestClass{
 			if(usuario != null){
 				perfilAdocao = perfilAdocaoRole.findPerfilByUser(usuario);
 			}
+		}catch(NoResultException noResult){
+			return Response.ok(new PerfilAdocao()).build();
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
