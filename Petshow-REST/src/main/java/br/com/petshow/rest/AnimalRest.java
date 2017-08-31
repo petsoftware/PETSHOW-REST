@@ -68,7 +68,14 @@ public class AnimalRest  extends SuperRestClass{
 			}
 		}else{
 			try {
-				animalRole.insert(animal);
+				Tutor tutor = animal.getTutor();
+				if(tutor != null){
+					animalRole.insert(animal, tutor);
+					animal.setTutor(null);
+				}else{
+					animalRole.insert(animal);
+				}
+				
 			} catch (ExceptionValidation e) {
 				return RestUtil.getResponseValidationErro(e);
 			}catch (Exception e) {
