@@ -24,6 +24,7 @@ import br.com.petshow.model.Tratamento;
 import br.com.petshow.model.Tutor;
 import br.com.petshow.model.Vacina;
 import br.com.petshow.model.Vermifugo;
+import br.com.petshow.objects.query.AdocaoQuery;
 import br.com.petshow.role.AdocaoRole;
 import br.com.petshow.role.AnimalRole;
 import br.com.petshow.role.PerdidoRole;
@@ -161,6 +162,26 @@ public class AnimalRest  extends SuperRestClass{
 			animais =adocaoRole.consultaAnimaisAdocao(estado,cidade,tpAnimal,fase,sexo,limiteRegistros);
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(animais).build();
+
+	}
+	
+	@POST
+	@Path("consulta/adocao")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response animaisParaAdocao(AdocaoQuery query){
+
+		List<Adocao> animais =null;
+		try {
+			adocaoRole = getContext().getBean(AdocaoRole.class);
+			animais = adocaoRole.consultarAnimaisDisponíveisParaAdocao(query.getEstado(), 
+					query.getCidade(), 
+					query.getTpAnimal(), 
+					query.getFase(), 
+					query.getSexo(), 15);
 		} catch (Exception e) {
 			return RestUtil.getResponseErroInesperado(e);
 		}
