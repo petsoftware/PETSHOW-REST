@@ -1,4 +1,4 @@
-package br.com.petshow.rest;
+package br.com.petmooby.rest;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -11,12 +11,12 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
 
-import br.com.petshow.exceptions.ExceptionValidation;
-import br.com.petshow.model.Animal;
-import br.com.petshow.model.SmartphoneREG;
-import br.com.petshow.role.AnimalRole;
-import br.com.petshow.role.SmartphoneREGRole;
-import br.com.petshow.util.RestUtil;
+import br.com.petmooby.exceptions.ExceptionValidation;
+import br.com.petmooby.model.Animal;
+import br.com.petmooby.model.SmartphoneREG;
+import br.com.petmooby.role.AnimalRole;
+import br.com.petmooby.role.SmartphoneREGRole;
+import br.com.petmooby.util.RestUtil;
 
 @Component
 @Path("/fcm")

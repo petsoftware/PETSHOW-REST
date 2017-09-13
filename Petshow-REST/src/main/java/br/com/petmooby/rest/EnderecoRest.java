@@ -1,4 +1,4 @@
-package br.com.petshow.rest;
+package br.com.petmooby.rest;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -13,14 +13,14 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
 
-import br.com.petshow.exceptions.ExceptionValidation;
-import br.com.petshow.model.Bairro;
-import br.com.petshow.model.Cidade;
-import br.com.petshow.model.Estado;
-import br.com.petshow.role.BairroRole;
-import br.com.petshow.role.CidadeRole;
-import br.com.petshow.role.EstadoRole;
-import br.com.petshow.util.RestUtil;
+import br.com.petmooby.exceptions.ExceptionValidation;
+import br.com.petmooby.model.Bairro;
+import br.com.petmooby.model.Cidade;
+import br.com.petmooby.model.Estado;
+import br.com.petmooby.role.BairroRole;
+import br.com.petmooby.role.CidadeRole;
+import br.com.petmooby.role.EstadoRole;
+import br.com.petmooby.util.RestUtil;
 @Component
 @Path("/endereco")
 public class EnderecoRest extends SuperRestClass{

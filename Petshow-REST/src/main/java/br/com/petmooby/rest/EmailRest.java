@@ -1,4 +1,4 @@
-package br.com.petshow.rest;
+package br.com.petmooby.rest;
 
 import java.util.HashMap;
 
@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
 
-import br.com.petshow.util.RestUtil;
+import br.com.petmooby.util.RestUtil;
 @Component
 @Path("/email")
 public class EmailRest extends SuperRestClass{

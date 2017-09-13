@@ -1,4 +1,4 @@
-package br.com.petshow.rest;
+package br.com.petmooby.rest;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;

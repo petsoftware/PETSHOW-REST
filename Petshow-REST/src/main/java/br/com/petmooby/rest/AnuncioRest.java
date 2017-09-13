@@ -1,4 +1,4 @@
-package br.com.petshow.rest;
+package br.com.petmooby.rest;
 
 import java.util.List;
 
@@ -14,36 +14,42 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
 
-import br.com.petshow.exceptions.ExceptionNotFoundRecord;
-import br.com.petshow.exceptions.ExceptionValidation;
-import br.com.petshow.model.Servico;
-import br.com.petshow.role.ServicoRole;
-import br.com.petshow.util.RestUtil;
+import br.com.petmooby.exceptions.ExceptionNotFoundRecord;
+import br.com.petmooby.exceptions.ExceptionValidation;
+import br.com.petmooby.model.Anuncio;
+import br.com.petmooby.role.AnuncioRole;
+import br.com.petmooby.util.RestUtil;
 
 @Component
-@Path("/servico")
-public class ServicoRest extends SuperRestClass{
+@Path("/anuncio")
+public class AnuncioRest extends SuperRestClass{
 
 
-	ServicoRole servicoRole;
+	AnuncioRole anuncioR;
 
 	@POST
 	@Path("salvar")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response salvarServico(Servico servico){
-		servicoRole = getContext().getBean(ServicoRole.class);
-		if(servico.getId()>0){
+	public Response salvarAnuncio(Anuncio anuncio){
+ 
+		anuncioR = getContext().getBean(AnuncioRole.class);
+		if(anuncio.getId()>0){
 			try {
-				servicoRole.update(servico);
+				anuncioR.update(anuncio);
+
 			} catch (ExceptionValidation e) {
+
 				return RestUtil.getResponseValidationErro(e);
+
 			}catch (Exception e) {
+
 				return RestUtil.getResponseErroInesperado(e);
+
 			}
 		}else{
 			try {
-				servicoRole.insert(servico);
+				anuncioR.insert(anuncio);
 
 			} catch (ExceptionValidation e) {
 
@@ -56,7 +62,7 @@ public class ServicoRest extends SuperRestClass{
 			}
 
 		}
-		return Response.ok().entity(servico).build();
+		return Response.ok().entity(anuncio).build();
 
 
 	}
@@ -66,28 +72,29 @@ public class ServicoRest extends SuperRestClass{
 	@GET
 	@Path("consulta/usuario/{idUsuario}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response consultaServicosPorUsuario(@PathParam("idUsuario") long idUsuario){
+	public Response consultaAnunciosPorUsuario(@PathParam("idUsuario") long idUsuario){
 
-		List<Servico> servicos =null;
+		List<Anuncio> anuncios =null;
 		try {
-			servicoRole = getContext().getBean(ServicoRole.class);
-			servicos = servicoRole.consultaPorUsuario(idUsuario);
+			anuncioR = getContext().getBean(AnuncioRole.class);
+			anuncios = anuncioR.consultaPorUsuario(idUsuario);
+
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
 			return RestUtil.getResponseErroInesperado(e);
 		}
-		return Response.ok(servicos).build();
+		return Response.ok(anuncios).build();
 
 	}
 
 	@DELETE
-	@Path("{idServico}")
+	@Path("{idAnuncio}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response delete(@PathParam("idServico") long idServico){
+	public Response delete(@PathParam("idAnuncio") long idAnuncio){
 		try {
-			servicoRole = getContext().getBean(ServicoRole.class);
-			servicoRole.delete(idServico);
+			anuncioR = getContext().getBean(AnuncioRole.class);
+			anuncioR.delete(idAnuncio);
 			
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
@@ -101,14 +108,14 @@ public class ServicoRest extends SuperRestClass{
 	}
 
 	@GET
-	@Path("{idServico}")
+	@Path("{idAnuncio}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response consultaServico(@PathParam("idServico") long idUsuario){
+	public Response consultaAnuncio(@PathParam("idAnuncio") long idUsuario){
 
-		Servico servicoConsultado=null;
+		Anuncio anuncioConsultado=null;
 		try {
-			servicoRole = getContext().getBean(ServicoRole.class);
-			servicoConsultado=servicoRole.find(idUsuario);
+			anuncioR = getContext().getBean(AnuncioRole.class);
+			anuncioConsultado=anuncioR.find(idUsuario);
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
@@ -116,7 +123,7 @@ public class ServicoRest extends SuperRestClass{
 		}
 
 
-		return Response.ok().entity(servicoConsultado).build();
+		return Response.ok().entity(anuncioConsultado).build();
 	}
 
 }

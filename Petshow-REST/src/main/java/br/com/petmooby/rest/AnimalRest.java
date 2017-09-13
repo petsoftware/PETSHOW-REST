@@ -1,4 +1,4 @@
-package br.com.petshow.rest;
+package br.com.petmooby.rest;
 
 import java.util.List;
 
@@ -13,27 +13,28 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.springframework.stereotype.Component;
-import br.com.petshow.enums.EnumTipoAnimal;
-import br.com.petshow.exceptions.ExceptionNotFoundRecord;
-import br.com.petshow.exceptions.ExceptionValidation;
-import br.com.petshow.model.Adocao;
-import br.com.petshow.model.Animal;
-import br.com.petshow.model.Perdido;
-import br.com.petshow.model.Racas;
-import br.com.petshow.model.Tratamento;
-import br.com.petshow.model.Tutor;
-import br.com.petshow.model.Vacina;
-import br.com.petshow.model.Vermifugo;
-import br.com.petshow.objects.query.AdocaoQuery;
-import br.com.petshow.role.AdocaoRole;
-import br.com.petshow.role.AnimalRole;
-import br.com.petshow.role.PerdidoRole;
-import br.com.petshow.role.RacasRole;
-import br.com.petshow.role.TratamentoRole;
-import br.com.petshow.role.TutorRole;
-import br.com.petshow.role.VacinaRole;
-import br.com.petshow.role.VermifugoRole;
-import br.com.petshow.util.RestUtil;
+
+import br.com.petmooby.enums.EnumTipoAnimal;
+import br.com.petmooby.exceptions.ExceptionNotFoundRecord;
+import br.com.petmooby.exceptions.ExceptionValidation;
+import br.com.petmooby.model.Adocao;
+import br.com.petmooby.model.Animal;
+import br.com.petmooby.model.Perdido;
+import br.com.petmooby.model.Racas;
+import br.com.petmooby.model.Tratamento;
+import br.com.petmooby.model.Tutor;
+import br.com.petmooby.model.Vacina;
+import br.com.petmooby.model.Vermifugo;
+import br.com.petmooby.objects.query.AdocaoQuery;
+import br.com.petmooby.role.AdocaoRole;
+import br.com.petmooby.role.AnimalRole;
+import br.com.petmooby.role.PerdidoRole;
+import br.com.petmooby.role.RacasRole;
+import br.com.petmooby.role.TratamentoRole;
+import br.com.petmooby.role.TutorRole;
+import br.com.petmooby.role.VacinaRole;
+import br.com.petmooby.role.VermifugoRole;
+import br.com.petmooby.util.RestUtil;
 
 
 @Component

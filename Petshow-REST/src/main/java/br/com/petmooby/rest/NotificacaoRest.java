@@ -1,4 +1,4 @@
-package br.com.petshow.rest;
+package br.com.petmooby.rest;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -17,22 +17,22 @@ import org.springframework.stereotype.Component;
 
 import com.wedevol.xmpp.NotificationSend;
 
-import br.com.petshow.exceptions.ExceptionValidation;
-import br.com.petshow.model.Adocao;
-import br.com.petshow.model.Animal;
-import br.com.petshow.model.Notificacao;
-import br.com.petshow.model.Perdido;
-import br.com.petshow.model.Servico;
-import br.com.petshow.model.Usuario;
-import br.com.petshow.role.AdocaoRole;
-import br.com.petshow.role.AnimalRole;
-import br.com.petshow.role.NotificacaoRole;
-import br.com.petshow.role.PerdidoRole;
-import br.com.petshow.role.ServicoRole;
-import br.com.petshow.role.SmartphoneREGRole;
-import br.com.petshow.role.UsuarioRole;
-import br.com.petshow.util.MensagemUtil;
-import br.com.petshow.util.RestUtil;
+import br.com.petmooby.exceptions.ExceptionValidation;
+import br.com.petmooby.model.Adocao;
+import br.com.petmooby.model.Animal;
+import br.com.petmooby.model.Notificacao;
+import br.com.petmooby.model.Perdido;
+import br.com.petmooby.model.Servico;
+import br.com.petmooby.model.Usuario;
+import br.com.petmooby.role.AdocaoRole;
+import br.com.petmooby.role.AnimalRole;
+import br.com.petmooby.role.NotificacaoRole;
+import br.com.petmooby.role.PerdidoRole;
+import br.com.petmooby.role.ServicoRole;
+import br.com.petmooby.role.SmartphoneREGRole;
+import br.com.petmooby.role.UsuarioRole;
+import br.com.petmooby.util.MensagemUtil;
+import br.com.petmooby.util.RestUtil;
 
 
 @Component

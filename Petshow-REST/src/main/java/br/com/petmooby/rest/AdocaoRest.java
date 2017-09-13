@@ -1,4 +1,4 @@
-package br.com.petshow.rest;
+package br.com.petmooby.rest;
 
 import java.util.List;
 
@@ -14,11 +14,11 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
 
-import br.com.petshow.exceptions.ExceptionNotFoundRecord;
-import br.com.petshow.exceptions.ExceptionValidation;
-import br.com.petshow.model.Adocao;
-import br.com.petshow.role.AdocaoRole;
-import br.com.petshow.util.RestUtil;
+import br.com.petmooby.exceptions.ExceptionNotFoundRecord;
+import br.com.petmooby.exceptions.ExceptionValidation;
+import br.com.petmooby.model.Adocao;
+import br.com.petmooby.role.AdocaoRole;
+import br.com.petmooby.util.RestUtil;
 
 
 @Component
