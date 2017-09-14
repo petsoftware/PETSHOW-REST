@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
 
+import br.com.petmooby.enums.EnumFlTpEstabelecimento;
 import br.com.petmooby.enums.EnumRoles;
 import br.com.petmooby.exceptions.ExceptionValidation;
 import br.com.petmooby.model.Acesso;
@@ -71,13 +72,19 @@ public class UsuarioRest extends SuperRestClass{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response preCadastro(Usuario usuario){
 		try {
-			usuarioRole = getContext().getBean(UsuarioRole.class);
-			acessoRole  = getContext().getBean(AcessoRole.class);
+			usuarioRole 		= getContext().getBean(UsuarioRole.class);
+			acessoRole  		= getContext().getBean(AcessoRole.class);
 			securityLoginRole   = getContext().getBean(SecurityLoginRole.class);
 			//-----------------------------------------
 			//NOTE: Por padrao usaremos a role ADMIN
 			//-----------------------------------------
 			Acesso acesso = acessoRole.findAcesso(EnumRoles.ROLE_ADMIN);
+			if(usuario.getFlTpEstabelecimento() == EnumFlTpEstabelecimento.PETSHOP
+					|| usuario.getFlTpEstabelecimento() == EnumFlTpEstabelecimento.ONG){
+				acesso = acessoRole.findAcesso(EnumRoles.ROLE_ADMIN);
+			}else{
+				acesso = acessoRole.findAcesso(EnumRoles.ROLE_PRIVATE);
+			}
 			List<Acesso> authorities = Arrays.asList(acesso);
 			//-------------------------------------------
 			usuario.setAcessos(authorities);

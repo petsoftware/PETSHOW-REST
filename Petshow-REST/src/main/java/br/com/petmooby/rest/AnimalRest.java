@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.springframework.stereotype.Component;
 
+import br.com.petmooby.enums.EnumAchadoPerdido;
 import br.com.petmooby.enums.EnumTipoAnimal;
 import br.com.petmooby.exceptions.ExceptionNotFoundRecord;
 import br.com.petmooby.exceptions.ExceptionValidation;
@@ -217,7 +218,7 @@ public class AnimalRest  extends SuperRestClass{
 									@PathParam("idCidade") long cidade,
 									
 									@PathParam("tpAnimal") String tpAnimal,
-									@PathParam("tpPerdidoAchado") String tpPerdidoAchado,
+									@PathParam("tpPerdidoAchado") EnumAchadoPerdido tpPerdidoAchado,
 									@PathParam("limiteRegistros") int limiteRegistros
 									
 				){
