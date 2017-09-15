@@ -12,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.springframework.stereotype.Component;
 
 import br.com.petmooby.enums.EnumAchadoPerdido;
@@ -33,6 +34,7 @@ import br.com.petmooby.role.PerdidoRole;
 import br.com.petmooby.role.RacasRole;
 import br.com.petmooby.role.TratamentoRole;
 import br.com.petmooby.role.TutorRole;
+import br.com.petmooby.role.UsuarioRole;
 import br.com.petmooby.role.VacinaRole;
 import br.com.petmooby.role.VermifugoRole;
 import br.com.petmooby.util.RestUtil;
@@ -51,6 +53,7 @@ public class AnimalRest  extends SuperRestClass{
 	VacinaRole vacinaRole;
 	TratamentoRole tratamentoRole;
 	VermifugoRole vermifugoRole;
+	UsuarioRole usuarioRole;
 
 
 	@POST
@@ -642,6 +645,39 @@ public class AnimalRest  extends SuperRestClass{
 		return Response.ok().entity(entidade).build();
 	}
 	
+	
+//	@GET
+//	@Path("tutor/{idUser}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response getTutor( 	@PathParam("idUser") long idUser){
+//		Tutor tutor  = null;
+//		Usuario user = null;
+//		try {
+//			tutorRole 	= getContext().getBean(TutorRole.class);
+//			usuarioRole = getContext().getBean(UsuarioRole.class);
+//			user = usuarioRole.find(idUser);
+//			if(user != null){
+//				tutor = tutorRole.findByUser(user);
+//				if(tutor != null){
+//					if(tutor.getId() == 0){
+//						tutor.setDonoAtual(true);
+//						tutor.set
+//					}
+//				}else{
+//					
+//				}
+//			}
+//		} catch (ExceptionValidation e) {
+//			return RestUtil.getResponseValidationErro(e);
+//		} catch (Exception e) {
+//			return RestUtil.getResponseErroInesperado(e);
+//		}
+//
+//
+//	
+//		return Response.ok(tutor).build();
+//
+//	}
 	
 
 }
