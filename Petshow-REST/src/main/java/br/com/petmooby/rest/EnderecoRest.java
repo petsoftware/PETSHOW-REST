@@ -1,6 +1,5 @@
 package br.com.petmooby.rest;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,6 +12,7 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
 
+import br.com.petmooby.enums.EnumUF;
 import br.com.petmooby.exceptions.ExceptionValidation;
 import br.com.petmooby.model.Bairro;
 import br.com.petmooby.model.Cidade;
@@ -70,6 +70,21 @@ public class EnderecoRest extends SuperRestClass{
 		return Response.ok(cidades).build();
 
 	}
+	
+	@GET
+	@Path("consulta/cidade/uf/{uf}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response cidadePorEstadoPorUf(@PathParam("uf") EnumUF uf){
+		List<Cidade> cidades =null;
+		try {
+			cidadeR = getContext().getBean(CidadeRole.class);
+			cidades = cidadeR.findAllByUF(uf);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(cidades).build();
+	}
+	
 	@GET
 	@Path("consulta/cidade/estado/id/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
