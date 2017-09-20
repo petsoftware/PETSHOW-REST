@@ -30,6 +30,7 @@ public class WebIniConfigutations extends HttpServlet{
 		insertAuthorities(context);
 		insertCidadeCE(context);
 		insertCidadePE(context);
+		insertCidadeSP(context); 
 	}
 
 	private void insertAuthorities(ApplicationContext context) {
@@ -53,6 +54,15 @@ public class WebIniConfigutations extends HttpServlet{
 			WriteConsoleUtil.write("Iniciar carregamento das cidades de Pernambuco ............... INI");
 			cidadeRole.inserirCidadesPEJob();
 			WriteConsoleUtil.write("Iniciar carregamento das cidades de Pernambuco ............... OK");
+		}
+	}
+	
+	private void insertCidadeSP(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.SP).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades de São Paulo ............... INI");
+			cidadeRole.inserirCidadesSPJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades de São Paulo ............... OK");
 		}
 	}
 	
