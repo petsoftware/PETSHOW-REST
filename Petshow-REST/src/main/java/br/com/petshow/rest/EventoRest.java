@@ -1,4 +1,4 @@
-package br.com.petmooby.rest;
+package br.com.petshow.rest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,11 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
 
-import br.com.petmooby.constants.RestConstants;
-import br.com.petmooby.constants.RestPathConstants;
-import br.com.petmooby.exceptions.ExceptionValidation;
-import br.com.petmooby.model.Evento;
-import br.com.petmooby.role.EventoRole;
+import br.com.petshow.constants.RestConstants;
+import br.com.petshow.constants.RestPathConstants;
+import br.com.petshow.exceptions.ExceptionValidation;
+import br.com.petshow.model.Evento;
+import br.com.petshow.role.EventoRole;
 
 @Component
 @Path(RestPathConstants.PATH_EVENTO)

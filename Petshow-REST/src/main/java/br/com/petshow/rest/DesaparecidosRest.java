@@ -1,4 +1,4 @@
-package br.com.petmooby.rest;
+package br.com.petshow.rest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
-import br.com.petmooby.constants.RestConstants;
-import br.com.petmooby.constants.RestPathConstants;
-import br.com.petmooby.exceptions.ExceptionValidation;
-import br.com.petmooby.model.Desaparecidos;
-import br.com.petmooby.role.DesaparecidosRole;
+import br.com.petshow.constants.RestConstants;
+import br.com.petshow.constants.RestPathConstants;
+import br.com.petshow.exceptions.ExceptionValidation;
+import br.com.petshow.model.Desaparecidos;
+import br.com.petshow.role.DesaparecidosRole;
 
 @Component
 @Path(RestPathConstants.PATH_DESAPARECIDOS)

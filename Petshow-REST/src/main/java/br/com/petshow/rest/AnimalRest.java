@@ -1,4 +1,4 @@
-package br.com.petmooby.rest;
+package br.com.petshow.rest;
 
 import java.util.List;
 
@@ -15,29 +15,30 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
 
-import br.com.petmooby.enums.EnumAchadoPerdido;
-import br.com.petmooby.enums.EnumTipoAnimal;
-import br.com.petmooby.exceptions.ExceptionNotFoundRecord;
-import br.com.petmooby.exceptions.ExceptionValidation;
-import br.com.petmooby.model.Adocao;
-import br.com.petmooby.model.Animal;
-import br.com.petmooby.model.Perdido;
-import br.com.petmooby.model.Racas;
-import br.com.petmooby.model.Tratamento;
-import br.com.petmooby.model.Tutor;
-import br.com.petmooby.model.Vacina;
-import br.com.petmooby.model.Vermifugo;
-import br.com.petmooby.objects.query.AdocaoQuery;
-import br.com.petmooby.role.AdocaoRole;
-import br.com.petmooby.role.AnimalRole;
-import br.com.petmooby.role.PerdidoRole;
-import br.com.petmooby.role.RacasRole;
-import br.com.petmooby.role.TratamentoRole;
-import br.com.petmooby.role.TutorRole;
-import br.com.petmooby.role.UsuarioRole;
-import br.com.petmooby.role.VacinaRole;
-import br.com.petmooby.role.VermifugoRole;
-import br.com.petmooby.util.RestUtil;
+import br.com.petshow.enums.EnumAchadoPerdido;
+import br.com.petshow.enums.EnumTipoAnimal;
+import br.com.petshow.exceptions.ExceptionNotFoundRecord;
+import br.com.petshow.exceptions.ExceptionValidation;
+import br.com.petshow.model.Adocao;
+import br.com.petshow.model.Animal;
+import br.com.petshow.model.Perdido;
+import br.com.petshow.model.Racas;
+import br.com.petshow.model.Tratamento;
+import br.com.petshow.model.Tutor;
+import br.com.petshow.model.Vacina;
+import br.com.petshow.model.Vermifugo;
+import br.com.petshow.objects.query.AdocaoQuery;
+import br.com.petshow.objects.query.PerdidoQuery;
+import br.com.petshow.role.AdocaoRole;
+import br.com.petshow.role.AnimalRole;
+import br.com.petshow.role.PerdidoRole;
+import br.com.petshow.role.RacasRole;
+import br.com.petshow.role.TratamentoRole;
+import br.com.petshow.role.TutorRole;
+import br.com.petshow.role.UsuarioRole;
+import br.com.petshow.role.VacinaRole;
+import br.com.petshow.role.VermifugoRole;
+import br.com.petshow.util.RestUtil;
 
 
 @Component
@@ -182,15 +183,29 @@ public class AnimalRest  extends SuperRestClass{
 		List<Adocao> animais =null;
 		try {
 			adocaoRole = getContext().getBean(AdocaoRole.class);
-			animais = adocaoRole.consultarAnimaisDisponíveisParaAdocao(query.getEstado(), 
-					query.getCidade(), 
-					query.getTpAnimal(), 
-					query.getFase(), 
-					query.getSexo(), 15);
+			query.setLimiteRegistros(15);
+			animais = adocaoRole.consultarAnimaisDisponíveisParaAdocao(query);
 		} catch (Exception e) {
 			return RestUtil.getResponseErroInesperado(e);
 		}
 		return Response.ok(animais).build();
+
+	}
+	
+	@POST
+	@Path("consulta/perdidos")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response animaisPerdidos(PerdidoQuery query){
+
+		List<Perdido> animaisPerdidos =null;
+		try {
+			perdidoRole = getContext().getBean(PerdidoRole.class);
+			query.setLimiteRegistros(30);
+			animaisPerdidos = perdidoRole.consultaAnimaisPerdidos(query);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(animaisPerdidos).build();
 
 	}
 
@@ -644,40 +659,6 @@ public class AnimalRest  extends SuperRestClass{
 
 		return Response.ok().entity(entidade).build();
 	}
-	
-	
-//	@GET
-//	@Path("tutor/{idUser}")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Response getTutor( 	@PathParam("idUser") long idUser){
-//		Tutor tutor  = null;
-//		Usuario user = null;
-//		try {
-//			tutorRole 	= getContext().getBean(TutorRole.class);
-//			usuarioRole = getContext().getBean(UsuarioRole.class);
-//			user = usuarioRole.find(idUser);
-//			if(user != null){
-//				tutor = tutorRole.findByUser(user);
-//				if(tutor != null){
-//					if(tutor.getId() == 0){
-//						tutor.setDonoAtual(true);
-//						tutor.set
-//					}
-//				}else{
-//					
-//				}
-//			}
-//		} catch (ExceptionValidation e) {
-//			return RestUtil.getResponseValidationErro(e);
-//		} catch (Exception e) {
-//			return RestUtil.getResponseErroInesperado(e);
-//		}
-//
-//
-//	
-//		return Response.ok(tutor).build();
-//
-//	}
 	
 
 }

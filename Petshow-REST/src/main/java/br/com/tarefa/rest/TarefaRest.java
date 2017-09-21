@@ -14,11 +14,11 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
 
-import br.com.petmooby.exceptions.ExceptionValidation;
-import br.com.petmooby.model.Animal;
-import br.com.petmooby.rest.SuperRestClass;
-import br.com.petmooby.role.AnimalRole;
-import br.com.petmooby.util.RestUtil;
+import br.com.petshow.exceptions.ExceptionValidation;
+import br.com.petshow.model.Animal;
+import br.com.petshow.rest.SuperRestClass;
+import br.com.petshow.role.AnimalRole;
+import br.com.petshow.util.RestUtil;
 import br.com.tarefa.model.Tarefa;
 import br.com.tarefa.role.TarefaRole;
 

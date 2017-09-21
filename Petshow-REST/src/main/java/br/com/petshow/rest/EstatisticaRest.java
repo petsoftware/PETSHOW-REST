@@ -1,4 +1,4 @@
-package br.com.petmooby.rest;
+package br.com.petshow.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -9,14 +9,14 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
 
-import br.com.petmooby.model.Estatistica;
-import br.com.petmooby.model.Usuario;
-import br.com.petmooby.role.AdocaoRole;
-import br.com.petmooby.role.AnuncioRole;
-import br.com.petmooby.role.ServicoRole;
-import br.com.petmooby.role.UsuarioRole;
-import br.com.petmooby.role.VendaRole;
-import br.com.petmooby.util.RestUtil;
+import br.com.petshow.model.Estatistica;
+import br.com.petshow.model.Usuario;
+import br.com.petshow.role.AdocaoRole;
+import br.com.petshow.role.AnuncioRole;
+import br.com.petshow.role.ServicoRole;
+import br.com.petshow.role.UsuarioRole;
+import br.com.petshow.role.VendaRole;
+import br.com.petshow.util.RestUtil;
 
 @Component
 @Path("/estatistica")

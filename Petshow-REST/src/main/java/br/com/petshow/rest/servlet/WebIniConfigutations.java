@@ -1,4 +1,4 @@
-package br.com.petmooby.rest.servlet;
+package br.com.petshow.rest.servlet;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServlet;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import br.com.petmooby.constants.WebServletStartsConstants;
-import br.com.petmooby.enums.EnumUF;
-import br.com.petmooby.role.AcessoRole;
-import br.com.petmooby.role.CidadeRole;
-import br.com.petmooby.util.WriteConsoleUtil;
+import br.com.petshow.constants.WebServletStartsConstants;
+import br.com.petshow.enums.EnumUF;
+import br.com.petshow.role.AcessoRole;
+import br.com.petshow.role.CidadeRole;
+import br.com.petshow.util.WriteConsoleUtil;
 
 @WebServlet(value="/webIniConfigutations", loadOnStartup=WebServletStartsConstants.START_INI_CONFIGURATIONS)
 public class WebIniConfigutations extends HttpServlet{
@@ -31,6 +31,9 @@ public class WebIniConfigutations extends HttpServlet{
 		insertCidadeCE(context);
 		insertCidadePE(context);
 		insertCidadeSP(context); 
+		insertCidadeMA(context);
+		insertCidadePI(context);
+		insertCidadePB(context);
 	}
 
 	private void insertAuthorities(ApplicationContext context) {
@@ -63,6 +66,33 @@ public class WebIniConfigutations extends HttpServlet{
 			WriteConsoleUtil.write("Iniciar carregamento das cidades de São Paulo ............... INI");
 			cidadeRole.inserirCidadesSPJob();
 			WriteConsoleUtil.write("Iniciar carregamento das cidades de São Paulo ............... OK");
+		}
+	}
+	
+	private void insertCidadeMA(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.MA).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades de Maranhão ............... INI");
+			cidadeRole.inserirCidadesMAJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades de Maranhão ............... OK");
+		}
+	}
+	
+	private void insertCidadePI(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.PI).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades de Piaui ............... INI");
+			cidadeRole.inserirCidadesPIJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades de Piaui ............... OK");
+		}
+	}
+	
+	private void insertCidadePB(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.PB).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades de Paraiba ............... INI");
+			cidadeRole.inserirCidadesPBJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades de Paraiba ............... OK");
 		}
 	}
 	

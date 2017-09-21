@@ -1,4 +1,4 @@
-package br.com.petmooby.rest.servlet;
+package br.com.petshow.rest.servlet;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import br.com.petmooby.rest.SuperRestClass;
-import br.com.petmooby.util.WriteConsoleUtil;
+import br.com.petshow.rest.SuperRestClass;
+import br.com.petshow.util.WriteConsoleUtil;
 
 /**
  * Servlet implementation class WebRestApplicationContext

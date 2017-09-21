@@ -1,4 +1,4 @@
-package br.com.petmooby.rest;
+package br.com.petshow.rest;
 
 import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
@@ -12,13 +12,13 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Service;
 
-import br.com.petmooby.constants.RestPathConstants;
-import br.com.petmooby.exceptions.ExceptionValidation;
-import br.com.petmooby.model.PerfilAdocao;
-import br.com.petmooby.model.Usuario;
-import br.com.petmooby.role.PerfilAdocaoRole;
-import br.com.petmooby.role.UsuarioRole;
-import br.com.petmooby.util.RestUtil;
+import br.com.petshow.constants.RestPathConstants;
+import br.com.petshow.exceptions.ExceptionValidation;
+import br.com.petshow.model.PerfilAdocao;
+import br.com.petshow.model.Usuario;
+import br.com.petshow.role.PerfilAdocaoRole;
+import br.com.petshow.role.UsuarioRole;
+import br.com.petshow.util.RestUtil;
 /**
  * 
  * @author Rafael ROcha

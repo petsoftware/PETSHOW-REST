@@ -1,4 +1,4 @@
-package br.com.petmooby.rest;
+package br.com.petshow.rest;
 
 import java.util.HashMap;
 import java.util.Arrays;
@@ -16,22 +16,22 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
 
-import br.com.petmooby.enums.EnumFlTpEstabelecimento;
-import br.com.petmooby.enums.EnumRoles;
-import br.com.petmooby.exceptions.ExceptionValidation;
-import br.com.petmooby.model.Acesso;
-import br.com.petmooby.model.Amigo;
-import br.com.petmooby.model.SecurityLogin;
-import br.com.petmooby.model.Usuario;
-import br.com.petmooby.model.UsuarioCliente;
-import br.com.petmooby.role.AcessoRole;
-import br.com.petmooby.role.AmigoRole;
-import br.com.petmooby.role.SecurityLoginRole;
-import br.com.petmooby.role.TutorRole;
-import br.com.petmooby.role.UsuarioClienteRole;
-import br.com.petmooby.role.UsuarioRole;
-import br.com.petmooby.util.KeyNewUserValidateUtil;
-import br.com.petmooby.util.RestUtil;
+import br.com.petshow.enums.EnumFlTpEstabelecimento;
+import br.com.petshow.enums.EnumRoles;
+import br.com.petshow.exceptions.ExceptionValidation;
+import br.com.petshow.model.Acesso;
+import br.com.petshow.model.Amigo;
+import br.com.petshow.model.SecurityLogin;
+import br.com.petshow.model.Usuario;
+import br.com.petshow.model.UsuarioCliente;
+import br.com.petshow.role.AcessoRole;
+import br.com.petshow.role.AmigoRole;
+import br.com.petshow.role.SecurityLoginRole;
+import br.com.petshow.role.TutorRole;
+import br.com.petshow.role.UsuarioClienteRole;
+import br.com.petshow.role.UsuarioRole;
+import br.com.petshow.util.KeyNewUserValidateUtil;
+import br.com.petshow.util.RestUtil;
 
 @Component
 @Path("/usuario")
