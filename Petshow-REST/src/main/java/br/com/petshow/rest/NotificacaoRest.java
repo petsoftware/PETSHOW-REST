@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.wedevol.xmpp.NotificationSend;
 
+import br.com.petshow.enums.EnumAssuntoNotificacao;
 import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.model.Adocao;
 import br.com.petshow.model.Animal;
@@ -42,6 +43,8 @@ public class NotificacaoRest  extends SuperRestClass{
 	
 	NotificacaoRole notificacaoRole;
 	SmartphoneREGRole smartRegRole;
+	private PerdidoRole perdidoRole;
+	
 
 	@POST
 	@Path("entrega")
@@ -57,7 +60,7 @@ public class NotificacaoRest  extends SuperRestClass{
 			Usuario  usuarioRemetente = getContext().getBean(UsuarioRole.class).find(Long.parseLong(parametros.get("idUsuarioRemetente")));
 			Animal animal =  getContext().getBean(AnimalRole.class).find(Long.parseLong(parametros.get("idAnimal")));
 			Servico servico = getContext().getBean(ServicoRole.class).find(Long.parseLong(parametros.get("idServico")));
-			String aviso = "Sr."+usuarioDestinatario.getNome()+", "+(MensagemUtil.getVogalSexo(animal))+" "+animal.getNome()+" j� est� pront"+(MensagemUtil.getVogalSexo(animal))+" para ser entregue!";
+			String aviso = "Sr."+usuarioDestinatario.getNome()+", "+(MensagemUtil.getVogalSexo(animal))+" "+animal.getNome()+" já está pronto "+(MensagemUtil.getVogalSexo(animal))+" para ser entregue!";
 			
 			Notificacao notificacao =   new Notificacao();
 			notificacao.setDtNotificacao(new Date());
@@ -108,23 +111,33 @@ public class NotificacaoRest  extends SuperRestClass{
 	@POST
 	@Path("perdido/msganuncio")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response notificacaoAnuncioPerdido(HashMap<String,String> parametros){
-		//@QueryParam("idUsuario")long idUsuario,@QueryParam("idAnimal")long idAnimal
-		
+	public Response notificacaoAnuncioPerdido(HashMap<String,String> parametros){	
 		try {
-			String mensagem=parametros.get("mensagem");
-			String telefone=parametros.get("telefone");
-			String email=parametros.get("email");
-			
-			Perdido  perdido = getContext().getBean(PerdidoRole.class).find(Long.parseLong(parametros.get("idPerdido")));
-
+			String mensagem	= parametros.get("mensagem");
+			String telefone	= parametros.get("telefone");
+			String email	= parametros.get("email");
+			String nome		= parametros.get("nome");
+			perdidoRole 	= getContext().getBean(PerdidoRole.class);
+			notificacaoRole = getContext().getBean(NotificacaoRole.class);
+			Perdido  perdido = perdidoRole.find(Long.parseLong(parametros.get("idPerdido")));
+			Notificacao notificacao = new Notificacao();
+			notificacao.setDtNotificacao(new Date());
+			notificacao.setFlEnviada(false);
+			notificacao.setFlExcluida(false);
+			notificacao.setFlLida(false);
+			notificacao.setMsgNotificacao(mensagem);
+			notificacao.setEmail(email);
+			notificacao.setContato(telefone);
+			notificacao.setAssuntoNotificacao(EnumAssuntoNotificacao.PERDIDO);
+			notificacao.setUsuarioDestinatario(perdido.getUsuario());
+			notificacao.setNome(nome);
+			notificacaoRole.insert(notificacao);
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
 			return RestUtil.getResponseErroInesperado(e);
 		}
 		return Response.ok().build();
-		
 	}
 	
 	@GET
