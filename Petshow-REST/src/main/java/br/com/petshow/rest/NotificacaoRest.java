@@ -25,6 +25,7 @@ import br.com.petshow.model.Notificacao;
 import br.com.petshow.model.Perdido;
 import br.com.petshow.model.Servico;
 import br.com.petshow.model.Usuario;
+import br.com.petshow.objects.query.NotificacaoQuery;
 import br.com.petshow.role.AdocaoRole;
 import br.com.petshow.role.AnimalRole;
 import br.com.petshow.role.NotificacaoRole;
@@ -44,7 +45,7 @@ public class NotificacaoRest  extends SuperRestClass{
 	NotificacaoRole notificacaoRole;
 	SmartphoneREGRole smartRegRole;
 	private PerdidoRole perdidoRole;
-	
+	private UsuarioRole usuarioRole;
 
 	@POST
 	@Path("entrega")
@@ -55,13 +56,11 @@ public class NotificacaoRest  extends SuperRestClass{
 			
 			notificacaoRole= getContext().getBean(NotificacaoRole.class);
 			smartRegRole= getContext().getBean(SmartphoneREGRole.class);
-			
 			Usuario  usuarioDestinatario = getContext().getBean(UsuarioRole.class).find(Long.parseLong(parametros.get("idUsuarioDestinatario")));
 			Usuario  usuarioRemetente = getContext().getBean(UsuarioRole.class).find(Long.parseLong(parametros.get("idUsuarioRemetente")));
 			Animal animal =  getContext().getBean(AnimalRole.class).find(Long.parseLong(parametros.get("idAnimal")));
 			Servico servico = getContext().getBean(ServicoRole.class).find(Long.parseLong(parametros.get("idServico")));
 			String aviso = "Sr."+usuarioDestinatario.getNome()+", "+(MensagemUtil.getVogalSexo(animal))+" "+animal.getNome()+" já está pronto "+(MensagemUtil.getVogalSexo(animal))+" para ser entregue!";
-			
 			Notificacao notificacao =   new Notificacao();
 			notificacao.setDtNotificacao(new Date());
 			notificacao.setTpNotificacao("E");
@@ -69,12 +68,8 @@ public class NotificacaoRest  extends SuperRestClass{
 			notificacao.setUsuarioRemetente(usuarioRemetente);
 			notificacao.setMsgNotificacao(aviso);
 			notificacaoRole.insert(notificacao);
-			
-			
-			
 			NotificationSend.sendNotificationAndroid(smartRegRole.findFacebook(usuarioDestinatario.getIdFacebook()).getIdSmartPhoneFCM(), aviso);
-			
-			
+	
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
 		} catch (Exception e) {
@@ -113,12 +108,15 @@ public class NotificacaoRest  extends SuperRestClass{
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response notificacaoAnuncioPerdido(HashMap<String,String> parametros){	
 		try {
+			perdidoRole 	= getContext().getBean(PerdidoRole.class);
+			notificacaoRole = getContext().getBean(NotificacaoRole.class);
+			usuarioRole		= getContext().getBean(UsuarioRole.class);
 			String mensagem	= parametros.get("mensagem");
 			String telefone	= parametros.get("telefone");
 			String email	= parametros.get("email");
 			String nome		= parametros.get("nome");
-			perdidoRole 	= getContext().getBean(PerdidoRole.class);
-			notificacaoRole = getContext().getBean(NotificacaoRole.class);
+			String userRemet= parametros.get("idUserRemet");
+			Usuario remetent= obterUsuarioRemetenteSeExistir(userRemet);
 			Perdido  perdido = perdidoRole.find(Long.parseLong(parametros.get("idPerdido")));
 			Notificacao notificacao = new Notificacao();
 			notificacao.setDtNotificacao(new Date());
@@ -131,6 +129,7 @@ public class NotificacaoRest  extends SuperRestClass{
 			notificacao.setAssuntoNotificacao(EnumAssuntoNotificacao.PERDIDO);
 			notificacao.setUsuarioDestinatario(perdido.getUsuario());
 			notificacao.setNome(nome);
+			notificacao.setUsuarioRemetente(remetent);
 			notificacaoRole.insert(notificacao);
 		} catch (ExceptionValidation e) {
 			return RestUtil.getResponseValidationErro(e);
@@ -138,6 +137,46 @@ public class NotificacaoRest  extends SuperRestClass{
 			return RestUtil.getResponseErroInesperado(e);
 		}
 		return Response.ok().build();
+	}
+	
+	@POST
+	@Path("responder")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response responderNotificacao(NotificacaoQuery notificacaoQuery){	
+		try {
+			perdidoRole 	= getContext().getBean(PerdidoRole.class);
+			notificacaoRole = getContext().getBean(NotificacaoRole.class);
+			usuarioRole		= getContext().getBean(UsuarioRole.class);
+			Notificacao notificacao = new Notificacao();
+			notificacao.setDtNotificacao(new Date());
+			notificacao.setFlEnviada(false);
+			notificacao.setFlExcluida(false);
+			notificacao.setFlLida(false);
+			notificacao.setMsgNotificacao(notificacaoQuery.getMensagem());
+			notificacao.setEmail(notificacaoQuery.getEmail());
+			notificacao.setContato(notificacaoQuery.getTelefone());
+			notificacao.setAssuntoNotificacao(notificacaoQuery.getAssunto());
+			notificacao.setUsuarioDestinatario(notificacaoQuery.getDestinatario());
+			notificacao.setNome(notificacaoQuery.getNome());
+			notificacao.setUsuarioRemetente(notificacaoQuery.getRemetente());
+			notificacaoRole.insert(notificacao);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok().build();
+	}
+
+
+	private Usuario obterUsuarioRemetenteSeExistir(String userRemet) throws ExceptionValidation {
+		Usuario remetent = null;
+		if(userRemet != null){
+			if(!userRemet.trim().isEmpty() && !userRemet.equals("0")){
+				remetent = usuarioRole.find(Long.parseLong(userRemet));
+			}
+		}
+		return remetent;
 	}
 	
 	@GET
@@ -182,8 +221,22 @@ public class NotificacaoRest  extends SuperRestClass{
 			}
 		}
 		return Response.ok().entity(notificacao).build();
-
-
+	}
+	
+	@GET
+	@Path("get/{idNotificacao}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getNotificacao(@PathParam("idNotificacao") long idNotificacao){
+		Notificacao notificacao = null;
+		try {
+			notificacaoRole	= getContext().getBean(NotificacaoRole.class);
+			notificacao 	= notificacaoRole.find(idNotificacao);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(notificacao).build();
 	}
 
 }
