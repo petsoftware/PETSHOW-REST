@@ -17,7 +17,11 @@ import org.springframework.stereotype.Component;
 import br.com.petshow.exceptions.ExceptionNotFoundRecord;
 import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.model.Adocao;
+import br.com.petshow.model.PerfilAdocao;
+import br.com.petshow.model.Usuario;
 import br.com.petshow.role.AdocaoRole;
+import br.com.petshow.role.PerfilAdocaoRole;
+import br.com.petshow.role.UsuarioRole;
 import br.com.petshow.util.RestUtil;
 
 
@@ -25,6 +29,8 @@ import br.com.petshow.util.RestUtil;
 @Path("/adocao")
 public class AdocaoRest extends SuperRestClass{
 	AdocaoRole adocaoRole;
+	private UsuarioRole usuarioRole;
+	private PerfilAdocaoRole perfilAdocaoRole;
 	public AdocaoRest() {
 		
 	}
@@ -106,6 +112,30 @@ public class AdocaoRest extends SuperRestClass{
 			return RestUtil.getResponseErroInesperado(e);
 		}
 		return Response.ok().build();
+	}
+	
+	@GET
+	@Path("consulta/perfil/usuario/{idUsuario}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response adocoesDisponiveisPorPerfil(@PathParam("idUsuario") long idUsuario){
+		List<Adocao> animais 		= null;
+		PerfilAdocao perfilAdocao	= null;
+		try {
+			usuarioRole 	= getContext().getBean(UsuarioRole.class);
+			perfilAdocaoRole= getContext().getBean(PerfilAdocaoRole.class); 
+			Usuario usuario = usuarioRole.find(idUsuario);
+			if(usuario != null && usuario.getId() > 0){
+				perfilAdocao = perfilAdocaoRole.findPerfilByUser(usuario);
+				if(perfilAdocao != null){
+					animais = perfilAdocaoRole.findAdocoesByPerfil(perfilAdocao);
+				}
+			}
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(animais).build();
 	}
 	
 }

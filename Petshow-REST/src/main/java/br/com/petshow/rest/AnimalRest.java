@@ -659,6 +659,5 @@ public class AnimalRest  extends SuperRestClass{
 
 		return Response.ok().entity(entidade).build();
 	}
-	
 
 }
