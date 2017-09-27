@@ -214,6 +214,7 @@ public class NotificacaoRest  extends SuperRestClass{
 		}else{
 			try {
 				notificacaoRole.insert(notificacao);
+				notificacaoRole.avisarPorEmailUmaNotificacao(notificacao);
 			} catch (ExceptionValidation e) {
 				return RestUtil.getResponseValidationErro(e);
 			}catch (Exception e) {
