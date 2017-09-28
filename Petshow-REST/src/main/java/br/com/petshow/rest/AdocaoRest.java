@@ -138,4 +138,22 @@ public class AdocaoRest extends SuperRestClass{
 		return Response.ok(animais).build();
 	}
 	
+	@GET
+	@Path("/usuario/adocoes/anunciadas/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultaAdocoesAnunciadasUsuario(@PathParam("id") long idUsuario){
+		List<Adocao> entidade=null;
+		try {
+			adocaoRole = getContext().getBean(AdocaoRole.class);
+			entidade= adocaoRole.consultaPorUsuario(idUsuario);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+
+
+		return Response.ok().entity(entidade).build();
+	}
+	
 }

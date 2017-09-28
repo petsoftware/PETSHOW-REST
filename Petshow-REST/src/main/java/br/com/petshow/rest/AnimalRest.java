@@ -359,7 +359,6 @@ public class AnimalRest  extends SuperRestClass{
 
 	}
 	
-	
 	@GET
 	@Path("consulta/perdido/usuario/{idUsuario}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -376,6 +375,7 @@ public class AnimalRest  extends SuperRestClass{
 		return Response.ok(perdidos).build();
 
 	}
+	
 	
 	@DELETE
 	@Path("perdido/{id}")
