@@ -10,14 +10,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import org.springframework.stereotype.Component;
-
 import br.com.petshow.exceptions.ExceptionNotFoundRecord;
 import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.model.Perdido;
 import br.com.petshow.objects.query.PerdidoQuery;
-import br.com.petshow.role.AdocaoRole;
 import br.com.petshow.role.PerdidoRole;
 import br.com.petshow.util.RestUtil;
 
@@ -75,6 +72,23 @@ public class PerdidoRest extends SuperRestClass {
 			return RestUtil.getResponseErroInesperado(e);
 		}
 		return Response.ok().build();
+	}
+	
+	@POST
+	@Path("encontrados")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response animaisEncontrados(PerdidoQuery query){
+
+		List<Perdido> animaisPerdidos =null;
+		try {
+			perdidoRole = getContext().getBean(PerdidoRole.class);
+			query.setLimiteRegistros(30);
+			animaisPerdidos = perdidoRole.consultaAnimaisEncontrados(query);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(animaisPerdidos).build();
+
 	}
 
 }
