@@ -90,5 +90,36 @@ public class PerdidoRest extends SuperRestClass {
 		return Response.ok(animaisPerdidos).build();
 
 	}
+	
+	@GET
+	@Path("consulta/encontrados/usuario/{idUsuario}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response encontradosPorUsuario(@PathParam("idUsuario") long idUsuario){
+		List<Perdido> perdidos =null;
+		try {
+			perdidoRole = getContext().getBean(PerdidoRole.class);
+			perdidos = perdidoRole.getEncontradosPorUsuario(idUsuario);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(perdidos).build();
+
+	}
+	
+	@GET
+	@Path("/perdido/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultaPerdido(@PathParam("id") long id){
+		Perdido entidade=null;
+		try {
+			perdidoRole = getContext().getBean(PerdidoRole.class);
+			entidade= perdidoRole.find(id);
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok().entity(entidade).build();
+	}
 
 }
