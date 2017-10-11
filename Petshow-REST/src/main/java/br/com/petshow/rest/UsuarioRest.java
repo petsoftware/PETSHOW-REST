@@ -75,6 +75,9 @@ public class UsuarioRest extends SuperRestClass{
 			usuarioRole 		= getContext().getBean(UsuarioRole.class);
 			acessoRole  		= getContext().getBean(AcessoRole.class);
 			securityLoginRole   = getContext().getBean(SecurityLoginRole.class);
+			if(verificarSeJaExisteEmail(usuarioRole, usuario)){
+				throw new ExceptionValidation("O e-mail já existe.");
+			}
 			//-----------------------------------------
 			//NOTE: Por padrao usaremos a role ADMIN
 			//-----------------------------------------
@@ -102,9 +105,19 @@ public class UsuarioRest extends SuperRestClass{
 			return RestUtil.getResponseErroInesperado(e);
 		}
 		return Response.ok().entity(usuario).build();
-
-
-
+	}
+	
+	public boolean verificarSeJaExisteEmail(UsuarioRole usuarioRole, Usuario usuario) {
+		Usuario existeUsuario = usuarioRole.consultaPorNomeLogin(usuario.getEmail());
+		if(existeUsuario != null){
+			if(existeUsuario.getId() > 0){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
 	}
 	
 	@POST
