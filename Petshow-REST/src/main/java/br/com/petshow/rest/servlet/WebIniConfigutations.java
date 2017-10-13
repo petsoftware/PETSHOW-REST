@@ -34,6 +34,15 @@ public class WebIniConfigutations extends HttpServlet{
 		insertCidadeMA(context);
 		insertCidadePI(context);
 		insertCidadePB(context);
+		insertCidadeAC(context);
+		insertCidadeAL(context);
+		insertCidadeAM(context);
+		insertCidadeBA(context);
+		insertCidadeDF(context);
+		insertCidadeES(context);
+		insertCidadeMG(context);
+		insertCidadeMS(context);
+		insertCidadeMT(context);
 	}
 
 	private void insertAuthorities(ApplicationContext context) {
@@ -96,4 +105,85 @@ public class WebIniConfigutations extends HttpServlet{
 		}
 	}
 	
+	private void insertCidadeAC(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.AC).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Acre ............... INI");
+			cidadeRole.inserirCidadesACJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Acre ............... OK");
+		}
+	}
+	
+	private void insertCidadeAL(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.AL).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Alagoas ............... INI");
+			cidadeRole.inserirCidadesALJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Alagoas ............... OK");
+		}
+	}
+	
+	private void insertCidadeAM(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.AM).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Amazonas ............... INI");
+			cidadeRole.inserirCidadesAMJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Amazonas ............... OK");
+		}
+	}
+	
+	private void insertCidadeBA(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.BA).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Bahia ............... INI");
+			cidadeRole.inserirCidadesBAJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Bahia ............... OK");
+		}
+	}
+	
+	private void insertCidadeDF(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.DF).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Distrito Federal ............... INI");
+			cidadeRole.inserirCidadesDFJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Distrito Federal ............... OK");
+		}
+	}
+	
+	private void insertCidadeES(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.ES).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Espirito Santo ............... INI");
+			cidadeRole.inserirCidadesESJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Espirito Santo ............... OK");
+		}
+	}
+	
+	private void insertCidadeMG(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.MG).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades de Minas Gerais ............... INI");
+			cidadeRole.inserirCidadesMGJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades de Minas Gerais ............... OK");
+		}
+	}
+	
+	private void insertCidadeMS(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.MS).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Mato Grosso do Sul............... INI");
+			cidadeRole.inserirCidadesMSJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Mato Grosso do Sul............... OK");
+		}
+	}
+	
+	private void insertCidadeMT(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.MT).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Mato Grosso ............... INI");
+			cidadeRole.inserirCidadesMTJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Mato Grosso ............... OK");
+		}
+	}
+
 }
