@@ -43,6 +43,9 @@ public class WebIniConfigutations extends HttpServlet{
 		insertCidadeMG(context);
 		insertCidadeMS(context);
 		insertCidadeMT(context);
+		insertCidadePA(context);
+		insertCidadePR(context);
+		insertCidadeRJ(context);
 	}
 
 	private void insertAuthorities(ApplicationContext context) {
@@ -183,6 +186,33 @@ public class WebIniConfigutations extends HttpServlet{
 			WriteConsoleUtil.write("Iniciar carregamento das cidades do Mato Grosso ............... INI");
 			cidadeRole.inserirCidadesMTJob();
 			WriteConsoleUtil.write("Iniciar carregamento das cidades do Mato Grosso ............... OK");
+		}
+	}
+	
+	private void insertCidadePA(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.PA).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Para ............... INI");
+			cidadeRole.inserirCidadesPAJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Para ............... OK");
+		}
+	}
+	
+	private void insertCidadePR(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.PR).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Parana ............... INI");
+			cidadeRole.inserirCidadesPRJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Parana ............... OK");
+		}
+	}
+	
+	private void insertCidadeRJ(ApplicationContext context) {
+		CidadeRole cidadeRole = context.getBean(CidadeRole.class);
+		if(cidadeRole.findAllByUF(EnumUF.RJ).size() == 0){
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Rio de Janeiro ............... INI");
+			cidadeRole.inserirCidadesRJJob();
+			WriteConsoleUtil.write("Iniciar carregamento das cidades do Rio de Janeiro ............... OK");
 		}
 	}
 
