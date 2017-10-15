@@ -25,7 +25,7 @@ import br.com.petshow.util.RestUtil;
  * @since 1.0 11/08/2017 as 15:14
  */
 @Service
-@Path(RestPathConstants.PATH_PERFIL_ADOCAO)
+@Path("/"+RestPathConstants.PATH_PERFIL_ADOCAO)
 public class PerfilAdocaoRest extends SuperRestClass{
 
 	PerfilAdocaoRole perfilAdocaoRole;
@@ -88,6 +88,36 @@ public class PerfilAdocaoRest extends SuperRestClass{
 			return RestUtil.getResponseErroInesperado(e);
 		}
 		return Response.ok(perfilAdocao).build();
+
+	}
+	
+	/**
+	 * Numero de animais disponiveis para adocao dentro do perfil de adocao do usuario
+	 * @param id do usuario
+	 * @return
+	 */
+	@GET
+	@Path(RestPathConstants.GET+"/count/{"+RestPathConstants.USER_ID+"}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getCountPerfilAdocaoPorUsuario(@PathParam(RestPathConstants.USER_ID) long userId){
+		Usuario usuario  = null;
+		perfilAdocaoRole = getContext().getBean(PerfilAdocaoRole.class);
+		usuarioRole 	 = getContext().getBean(UsuarioRole.class);	
+		long count		 = 0;
+		try {
+			usuario		 = usuarioRole.find(userId);
+			count	 	= 0;
+			if(usuario != null){
+				count = perfilAdocaoRole.countAdocoesNoPerfil(usuario);
+			}
+		}catch(NoResultException noResult){
+			return Response.ok(new PerfilAdocao()).build();
+		} catch (ExceptionValidation e) {
+			return RestUtil.getResponseValidationErro(e);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(count).build();
 
 	}
 }
