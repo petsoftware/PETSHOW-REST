@@ -195,6 +195,20 @@ public class NotificacaoRest  extends SuperRestClass{
 		return Response.ok(notificacoes).build();
 
 	}
+	@GET
+	@Path("usuario/count/{idUsuario}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response countNotificacaoPorUsuario(@PathParam("idUsuario") long idUsuario){
+		long count = 0;
+		try {
+			notificacaoRole= getContext().getBean(NotificacaoRole.class);
+			count = notificacaoRole.countNotificacaoDoUsuario(idUsuario);
+		}catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(count).build();
+
+	}
 	
 	@POST
 	@Path("salvar")
