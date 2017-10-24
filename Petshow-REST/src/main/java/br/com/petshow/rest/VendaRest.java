@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import br.com.petshow.exceptions.ExceptionNotFoundRecord;
 import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.model.Venda;
+import br.com.petshow.objects.query.VendasQuery;
 import br.com.petshow.role.VendaRole;
 import br.com.petshow.util.RestUtil;
 
@@ -129,9 +130,23 @@ public class VendaRest  extends SuperRestClass{
 		} catch (Exception e) {
 			return RestUtil.getResponseErroInesperado(e);
 		}
-
-
 		return Response.ok().entity(vendaConsultada).build();
+	}
+	
+	@POST
+	@Path("consulta/vendas")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response animaisParaAdocao(VendasQuery query){
+		List<Venda> vendas =null;
+		try {
+			vendaR = getContext().getBean(VendaRole.class);
+			vendas = vendaR.consultarVendas(query);
+		} catch (Exception e) {
+			return RestUtil.getResponseErroInesperado(e);
+		}
+		return Response.ok(vendas).build();
+
 	}
 
 }
