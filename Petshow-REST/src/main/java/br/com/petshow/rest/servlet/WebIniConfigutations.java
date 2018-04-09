@@ -16,6 +16,7 @@ import br.com.petshow.exceptions.ExceptionValidation;
 import br.com.petshow.role.AcessoRole;
 import br.com.petshow.role.CidadeRole;
 import br.com.petshow.role.RacasRole;
+import br.com.petshow.role.RoleParametros;
 import br.com.petshow.util.WriteConsoleUtil;
 
 @WebServlet(value="/webIniConfigutations", loadOnStartup=WebServletStartsConstants.START_INI_CONFIGURATIONS)
@@ -34,6 +35,8 @@ public class WebIniConfigutations extends HttpServlet{
 		insertAuthorities(context);
 		inserirCidadesDoEstadoBrasileiro(context);
 		inserirRacasNoBanco(context);
+		loadParameters(context);
+		
 	}
 
 	private void inserirCidadesDoEstadoBrasileiro(ApplicationContext context) {
@@ -429,6 +432,15 @@ public class WebIniConfigutations extends HttpServlet{
 			}
 		}finally{
 			cidadeRole = null;
+		}
+	}
+	
+	private void loadParameters(ApplicationContext context) {
+		RoleParametros roleParametros = context.getBean(RoleParametros.class);
+		try{	
+			roleParametros.loadParametersFromDatabaseToMemory();			
+		}finally{
+			roleParametros = null;
 		}
 	}
 
